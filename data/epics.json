@@ -1,0 +1,16 @@
+[
+  {
+    "id": "EP-001",
+    "title": "Enhanced Document & Specification Attachment Suite",
+    "description": "Expand FlowDesk document handling capabilities to support multi-file attachments, automated security scanning, thumbnail previewing, and edge gateway file size enforcement. All attachment workflows must align with product brief sections PB-04, PB-04.1, and PB-04.2.",
+    "citations": ["PB-04", "PB-04.1", "PB-04.2"],
+    "is_thin": false
+  },
+  {
+    "id": "EP-002",
+    "title": "Automate Approval Overrides",
+    "description": "Make approval overrides better and faster.",
+    "citations": ["PB-06.2"],
+    "is_thin": true
+  }
+]

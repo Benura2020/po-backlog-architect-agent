@@ -1,0 +1,162 @@
+[
+  {
+    "id": "BL-001",
+    "title": "Configure Service Catalog Form Fields",
+    "description": "As a System Administrator, I want to define custom text and dropdown fields for catalog templates so that forms collect required intake data.",
+    "acceptance_criteria": "Given an administrator is editing a catalog item, When they add a mandatory text field, Then the field is rendered as required during ticket creation.",
+    "citations": ["PB-03"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-002",
+    "title": "Automate Manager Approval Routing for High Cost Requests",
+    "description": "As a Department Lead, I want requests over $500 to automatically trigger manager approvals so that expenditure is controlled.",
+    "acceptance_criteria": "Given a request with total cost > $500, When submitted, Then state transitions to PENDING_APPROVAL and notifies direct manager.",
+    "citations": ["PB-06.1"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-003",
+    "title": "Quick Search Tickets",
+    "description": "As a user I want quick search so I can find my tickets easily.",
+    "acceptance_criteria": "",
+    "citations": [],
+    "status": "NOT_READY"
+  },
+  {
+    "id": "BL-004",
+    "title": "Audit Log State Transitions",
+    "description": "As a System Administrator, I want all state machine transitions saved to an immutable audit log for compliance.",
+    "acceptance_criteria": "Given a ticket status changes, When saved, Then a JSON log entry with timestamp and user ID is stored in the audit ledger.",
+    "citations": ["PB-12"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-005",
+    "title": "View Request Status Breakdown Dashboard",
+    "description": "As a Department Lead, I want a visual dashboard showing ticket counts grouped by state so that I can monitor team throughput.",
+    "acceptance_criteria": "Given a lead accesses the dashboard tab, When rendered, Then ticket counts for SUBMITTED, IN_PROGRESS, and RESOLVED are displayed accurately.",
+    "citations": ["PB-11"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-006",
+    "title": "Upload Supporting Documents to a Request",
+    "description": "As a Requester, I want to attach PDF and image files to my service ticket so that fulfillment agents have necessary context.",
+    "acceptance_criteria": "Given a requester is on the ticket form, When they select a valid file, Then the attachment is uploaded and linked to the ticket record.",
+    "citations": ["PB-04.1"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-007",
+    "title": "Generic Data Management",
+    "description": "As a user, I want to manage my data and use the application efficiently.",
+    "acceptance_criteria": "The system should work fast and enable users to handle requests.",
+    "citations": [],
+    "status": "NOT_READY"
+  },
+  {
+    "id": "BL-008",
+    "title": "Filter Queue by Department Tag",
+    "description": "As a Fulfillment Agent, I want to filter the queue by IT, HR, or Facilities tags so that I focus on tickets assigned to my department.",
+    "acceptance_criteria": "Given an agent viewing the queue, When they filter by 'IT', Then only tickets tagged with 'IT' are rendered.",
+    "citations": ["PB-07"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-009",
+    "title": "Email Notification on Ticket Assignment",
+    "description": "As an agent, I want an email notification when a ticket is assigned to me so that I can respond promptly.",
+    "acceptance_criteria": "Given a ticket is assigned to agent X, When updated, Then an email is dispatched to agent X containing ticket ID and title.",
+    "citations": ["PB-09"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-010",
+    "title": "Knowledge Base Self-Resolution Search",
+    "description": "As a Requester, I want recommended KB articles displayed while typing a request title so that I can self-resolve common issues.",
+    "acceptance_criteria": "Given a requester entering a ticket title, When text matches KB keywords, Then top 3 relevant articles are suggested.",
+    "citations": ["PB-14"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-011",
+    "title": "Emergency Approval Override by Lead",
+    "description": "As an operational lead, I want to override stalled approval tasks so emergency outages can be addressed immediately.",
+    "acceptance_criteria": "Given an approval pending > 24 hours, When an authorized lead clicks Override, Then ticket status advances to IN_PROGRESS and event is logged.",
+    "citations": ["PB-06.2"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-012",
+    "title": "Approvers Can Review Requests",
+    "description": "As an approver, I want to review requests submitted to me.",
+    "acceptance_criteria": "Given an approver, When reviewing, Then they can approve.",
+    "citations": ["PB-06"],
+    "status": "NOT_READY"
+  },
+  {
+    "id": "BL-013",
+    "title": "Round-Robin Ticket Dispatch",
+    "description": "As a System Administrator, I want incoming tickets load-balanced across active agents in a queue via round-robin distribution.",
+    "acceptance_criteria": "Given 3 active agents, When 3 tickets arrive, Then 1 ticket is assigned to each agent in turn.",
+    "citations": ["PB-07"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-014",
+    "title": "Indefinite Editing of Submitted Requests",
+    "description": "As a Requester, I want submitted requests to remain editable by creator indefinitely so I can change details anytime.",
+    "acceptance_criteria": "Given a request in SUBMITTED or IN_PROGRESS state, When creator edits fields, Then updates save without status change.",
+    "citations": ["PB-05"],
+    "status": "NOT_READY"
+  },
+  {
+    "id": "BL-015",
+    "title": "REST API Endpoint for Remote Ticket Creation",
+    "description": "As a third-party application, I want to POST JSON ticket payloads to /api/v1/tickets to create requests programmatically.",
+    "acceptance_criteria": "Given a valid OAuth payload sent to API, When processed, Then ticket is created and 201 Created is returned.",
+    "citations": ["PB-13"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-016",
+    "title": "SLA Breach Warning Email Alerts",
+    "description": "As a Department Lead, I want an alert when a ticket reaches 80% of its SLA duration without resolution.",
+    "acceptance_criteria": "Given a ticket SLA timer at 80%, When evaluated, Then an alert notification is sent to department lead.",
+    "citations": ["PB-09"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-017",
+    "title": "Export Analytics Report to CSV",
+    "description": "As an Administrator, I want to export monthly MTTR metrics to a CSV file for executive reporting.",
+    "acceptance_criteria": "Given an admin on reports tab, When clicking Export CSV, Then a formatted CSV file is downloaded.",
+    "citations": ["PB-11"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-018",
+    "title": "Request Rejection and Return to Requester",
+    "description": "As a Fulfillment Agent, I want to return incomplete requests to the requester with comments so they can correct errors.",
+    "acceptance_criteria": "Given an agent reviewing a ticket, When selecting Reject with reason, Then state changes to PENDING_INFO and requester is notified.",
+    "citations": ["PB-10.1"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-019",
+    "title": "Cryptographic Ledger Integrity Check",
+    "description": "As an auditor, I want system audit logs to verify cryptographic hashes so that record tampering is detected.",
+    "acceptance_criteria": "Given audit records in database, When hash check is run, Then any altered row raises a compliance alert.",
+    "citations": ["PB-12"],
+    "status": "READY"
+  },
+  {
+    "id": "BL-020",
+    "title": "Agent Daily Update Reminder",
+    "description": "As a System Administrator, I want daily automated reminders sent for active tickets in IN_PROGRESS state missing notes for > 24 hrs.",
+    "acceptance_criteria": "Given a ticket in IN_PROGRESS with no update in 24 hours, When cron runs, Then reminder email is sent to request owner.",
+    "citations": ["PB-08"],
+    "status": "READY"
+  }
+]

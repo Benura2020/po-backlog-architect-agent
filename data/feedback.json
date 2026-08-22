@@ -1,0 +1,16 @@
+[
+  {
+    "id": "FB-001",
+    "source": "Quarterly User Survey",
+    "consent_given": true,
+    "user_role": "Fulfillment Agent",
+    "feedback_text": "The file upload feature needs to show exact upload progress percentage so agents know when large attachment transfers complete."
+  },
+  {
+    "id": "FB-002",
+    "source": "Exit Interview Transcript",
+    "consent_given": false,
+    "user_role": "Requester",
+    "feedback_text": "Rejection messages are vague. When my ticket was rejected, I didn't know which field to fix."
+  }
+]

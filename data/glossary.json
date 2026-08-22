@@ -1,0 +1,102 @@
+[
+  {
+    "term": "Service Request",
+    "ref": "GL-01",
+    "definition": "A formal request from a user for something to be provided — for example, a request for information, advice, or access to an IT service."
+  },
+  {
+    "term": "Service Catalog",
+    "ref": "GL-02",
+    "definition": "A structured database or module containing information about all live service offerings available to internal employees."
+  },
+  {
+    "term": "Requester",
+    "ref": "GL-03",
+    "definition": "The authenticated employee or user who initiates and submits a service request ticket into the platform."
+  },
+  {
+    "term": "Fulfillment Agent",
+    "ref": "GL-04",
+    "definition": "The operational team member assigned to process, work on, and resolve service requests within a specific department."
+  },
+  {
+    "term": "Department Lead",
+    "ref": "GL-05",
+    "definition": "Manager level user responsible for overseeing ticket queues, reassigning workloads, and approving high-impact changes."
+  },
+  {
+    "term": "System Administrator",
+    "ref": "GL-06",
+    "definition": "Administrative persona possessing elevated permissions to manage catalog forms, global SLA timers, and access controls."
+  },
+  {
+    "term": "Queue Assignment",
+    "ref": "GL-07",
+    "definition": "Automated routing process that places incoming tickets into designated departmental work queues based on rules."
+  },
+  {
+    "term": "Request Owner",
+    "ref": "GL-08",
+    "definition": "The single designated Fulfillment Agent currently assigned primary responsibility for bringing a ticket to resolution."
+  },
+  {
+    "term": "Service Level Agreement (SLA)",
+    "ref": "GL-09",
+    "definition": "Documented commitment defining target operational response and resolution timeframe metrics for ticket fulfillment."
+  },
+  {
+    "term": "Mean Time to Resolve (MTTR)",
+    "ref": "GL-10",
+    "definition": "Key performance metric calculating the average time elapsed from ticket submission to state transition to RESOLVED."
+  },
+  {
+    "term": "Approval Workflow",
+    "ref": "GL-11",
+    "definition": "Automated governance sequence requiring management sign-off before financial or high-risk requests can proceed."
+  },
+  {
+    "term": "Override",
+    "ref": "GL-12",
+    "definition": "Emergency management action allowing designated operational leads to bypass stalled approval gates."
+  },
+  {
+    "term": "State Machine",
+    "ref": "GL-13",
+    "definition": "Strict lifecycle model dictating allowed status transitions (DRAFT, SUBMITTED, IN_PROGRESS, RESOLVED, CLOSED)."
+  },
+  {
+    "term": "Draft Ticket",
+    "ref": "GL-14",
+    "definition": "An unsubmitted ticket saved locally by a requester prior to formal submission into the operational queue."
+  },
+  {
+    "term": "Audit Ledger",
+    "ref": "GL-15",
+    "definition": "Immutable system record keeping historical logs of all ticket modifications, approvals, status changes, and overrides."
+  },
+  {
+    "term": "Fulfillment Queue",
+    "ref": "GL-16",
+    "definition": "Group inventory of pending and active tickets categorized by service domain (e.g. IT Helpdesk, HR Operations)."
+  },
+  {
+    "term": "Resolution Article",
+    "ref": "GL-17",
+    "definition": "Standardized knowledge base entry detailing steps to resolve specific common operational requests."
+  },
+  {
+    "term": "Edge Gateway",
+    "ref": "GL-18",
+    "definition": "Frontline ingress server responsible for validating HTTP headers, security payloads, and file upload size caps."
+  },
+  {
+    "term": "Pending Clarification",
+    "ref": "GL-19",
+    "definition": "Ticket state indicating work is paused while awaiting additional input or attachments from the original requester."
+  },
+  {
+    "term": "Webhook Integration",
+    "ref": "GL-20",
+    "definition": "Automated HTTP callback pushing real-time ticket state events to external third-party software applications."
+  }
+]
