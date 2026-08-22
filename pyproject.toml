@@ -1,0 +1,9 @@
+[project]
+name = "po-backlog-architect-agent"
+version = "0.1.0"
+description = "Product Owner Agent — Backlog Architect for DigitalT3 intern challenge"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
