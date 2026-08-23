@@ -1,0 +1,31 @@
+version: "1.0"
+rules:
+  - id: clear_user_value
+    name: "Clear User Story Format & Value Statement"
+    description: "Must follow 'As a [role], I want [action] so that [benefit]' format."
+    required: true
+
+  - id: testable_criteria
+    name: "Has Non-Empty Acceptance Criteria"
+    description: "Story must have explicit Given/When/Then or structured acceptance criteria."
+    required: true
+
+  - id: grounded_citations
+    name: "Grounded Citations"
+    description: "Every referenced section ref must exist in context and support the story claim."
+    required: true
+
+  - id: dependencies_resolved
+    name: "Dependencies Resolved"
+    description: "All referenced dependency story IDs must exist and be in READY status."
+    required: true
+
+  - id: no_blocking_questions
+    name: "No Blocking Open Questions"
+    description: "Story must not contain unresolved open questions regarding missing specs or roles."
+    required: true
+
+  - id: domain_specific
+    name: "Domain Specific (Passes Anti-Generic Guard)"
+    description: "Story title and description must not contain generic placeholders or vague statements."
+    required: true
