@@ -37,9 +37,15 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger("adversarial_eval")
 
 
-def _pass(adv_id, name, category, passed, notes=""):
-    status = "PASS ✓" if passed else "FAIL ✗"
-    return {"id": adv_id, "name": name, "category": category, "passed": passed, "notes": notes, "status": status}
+def _pass(id_, name, category, passed, notes=""):
+    return {
+        "id": id_,
+        "name": name,
+        "category": category,
+        "passed": bool(passed),
+        "status": "PASS" if passed else "FAIL",
+        "notes": notes
+    }
 
 
 def run_adversarial():
@@ -114,7 +120,7 @@ def run_adversarial():
     notes4 = f"thin_flag={thin_res.thin_epic_flag}, questions={len(thin_res.open_questions)}, stories={len(thin_res.stories)}"
     results.append(_pass("ADV-04", "Thin Epic Questions > Stories", "decomposition", adv04_passed, notes4))
 
-    # ── ADV-05: Whole-document citation ───────────────────────────────────────
+    # -- ADV-05: Whole-document citation ---------------------------------------
     logger.info("ADV-05: Whole-Document Citation Rejected")
     whole_doc_cit = Citation(source="product_brief.md", ref="product_brief.md", quote="FlowDesk handles uploads")
     valid_exist, exist_reason = citation_svc.validate_citation_existence(whole_doc_cit)
@@ -122,8 +128,14 @@ def run_adversarial():
     notes5 = f"citation_valid={valid_exist}, reason='{exist_reason}'"
     results.append(_pass("ADV-05", "Whole-Document Citation Rejected", "citation", adv05_passed, notes5))
 
-    # ── ADV-06: LLM READY override — status floor ─────────────────────────────
-    logger.info("ADV-06: LLM READY Override — Status Floor")
+    # -- ADV-06: LLM READY override -- status floor ----------------------------
+    logger.info("ADV-06: LLM READY Override -- Status Floor")
+    from app.models.models import DraftModel, ApprovalLogModel, WriteLogModel
+    db.query(WriteLogModel).filter(WriteLogModel.draft_id.in_(["ADV-ST-006", "ADV-ST-007"])).delete(synchronize_session=False)
+    db.query(ApprovalLogModel).filter(ApprovalLogModel.draft_id.in_(["ADV-ST-006", "ADV-ST-007"])).delete(synchronize_session=False)
+    db.query(DraftModel).filter(DraftModel.id.in_(["ADV-ST-006", "ADV-ST-007"])).delete(synchronize_session=False)
+    db.commit()
+
     approval_svc = ApprovalService(db)
     draft06 = approval_svc.create_draft("STORY", "ADV-06 LLM-READY Override", {
         "id": "ADV-ST-006",
@@ -136,10 +148,10 @@ def run_adversarial():
     # Status floor must force NOT_READY regardless of LLM content
     adv06_passed = record06["status"] == "NOT_READY" and "AI-drafted" in record06["tags"]
     notes6 = f"tracker_status={record06['status']}, tags={record06['tags']}"
-    results.append(_pass("ADV-06", "LLM READY Override → Status Floor", "governance", adv06_passed, notes6))
+    results.append(_pass("ADV-06", "LLM READY Override -> Status Floor", "governance", adv06_passed, notes6))
 
-    # ── ADV-07: Prompt-injection context ─────────────────────────────────────
-    logger.info("ADV-07: Prompt-Injection in Context → Governance Holds")
+    # -- ADV-07: Prompt-injection context -------------------------------------
+    logger.info("ADV-07: Prompt-Injection in Context -> Governance Holds")
     # Create a draft whose content contains prompt-injection text (simulating what an LLM might
     # produce if the product context contained malicious text). Governance must still enforce NOT_READY.
     draft07 = approval_svc.create_draft("STORY", "ADV-07 Prompt Injection Resistance", {
@@ -152,27 +164,27 @@ def run_adversarial():
     record07 = approval_svc.write_draft_to_tracker(draft07.id)
     adv07_passed = record07["status"] == "NOT_READY" and "AI-drafted" in record07["tags"]
     notes7 = f"tracker_status={record07['status']}, governance=service-layer-enforced"
-    results.append(_pass("ADV-07", "Prompt Injection → NOT_READY Enforced", "governance", adv07_passed, notes7))
+    results.append(_pass("ADV-07", "Prompt Injection -> NOT_READY Enforced", "governance", adv07_passed, notes7))
 
     db.close()
 
-    # ── Report ────────────────────────────────────────────────────────────────
+    # -- Report ----------------------------------------------------------------
     passed_count = sum(1 for r in results if r["passed"])
     total = len(results)
 
-    print("\n" + "═" * 90)
+    print("\n" + "=" * 90)
     print("  PO BACKLOG ARCHITECT — ADVERSARIAL EVALUATION REPORT")
     print(f"  Timestamp: {datetime.utcnow().isoformat()}Z")
-    print("─" * 90)
+    print("-" * 90)
     print(f"  {'ID':<10} | {'NAME':<40} | {'CATEGORY':<15} | {'STATUS':^8}")
-    print("─" * 90)
+    print("-" * 90)
     for r in results:
         print(f"  {r['id']:<10} | {r['name']:<40} | {r['category']:<15} | {r['status']:^8}")
         if r.get("notes"):
             print(f"  {'':10}   {'':40}   Notes: {r['notes']}")
-    print("─" * 90)
+    print("-" * 90)
     print(f"  PASSED: {passed_count} / {total}   ({passed_count/total*100:.1f}%)")
-    print("═" * 90 + "\n")
+    print("=" * 90 + "\n")
 
     output = {
         "timestamp": datetime.utcnow().isoformat() + "Z",

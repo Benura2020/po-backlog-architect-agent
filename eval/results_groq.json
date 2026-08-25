@@ -1,0 +1,186 @@
+{
+  "timestamp": "2026-08-25T14:57:36.034083Z",
+  "provider": "groq",
+  "model": "qwen/qwen3.6-27b",
+  "llm_runs_per_case": 3,
+  "total_cases": 10,
+  "passed_cases": 10,
+  "pass_rate": 1.0,
+  "total_elapsed_s": 45.07,
+  "avg_llm_latency_s": 1.602,
+  "total_retries": 0,
+  "validation_failures": 0,
+  "results": [
+    {
+      "case_id": "TC-01",
+      "name": "Citation Resolution",
+      "metric": "unresolvable_citation_count",
+      "target": 0,
+      "actual": 0,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-02",
+      "name": "Open-Question Recall (Fabrication Probe)",
+      "metric": "open_question_recall",
+      "target": 1.0,
+      "actual": 1.0,
+      "passed": true,
+      "retries": 0,
+      "latency_s": 11.792,
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
+      "run_details": [
+        {
+          "run": 1,
+          "recall": 1.0,
+          "latency_s": 24.319,
+          "q1": true,
+          "q2": true,
+          "q3": true
+        },
+        {
+          "run": 2,
+          "recall": 1.0,
+          "latency_s": 7.579,
+          "q1": true,
+          "q2": true,
+          "q3": true
+        },
+        {
+          "run": 3,
+          "recall": 1.0,
+          "latency_s": 3.479,
+          "q1": true,
+          "q2": true,
+          "q3": true
+        }
+      ]
+    },
+    {
+      "case_id": "TC-03",
+      "name": "Generic Story Rate",
+      "metric": "generic_rate_after",
+      "target": 0.1,
+      "actual": 0.0,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-04",
+      "name": "Decomposition Coverage",
+      "metric": "coverage_score",
+      "target": 0.85,
+      "actual": 1.0,
+      "passed": true,
+      "retries": 0,
+      "latency_s": 2.621,
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
+      "run_details": [
+        {
+          "run": 1,
+          "story_count": 2,
+          "coverage": 1.0,
+          "latency_s": 5.524
+        },
+        {
+          "run": 2,
+          "story_count": 2,
+          "coverage": 1.0,
+          "latency_s": 1.14
+        },
+        {
+          "run": 3,
+          "story_count": 2,
+          "coverage": 1.0,
+          "latency_s": 1.199
+        }
+      ]
+    },
+    {
+      "case_id": "TC-05",
+      "name": "Readiness Gate Accuracy",
+      "metric": "readiness_accuracy",
+      "target": 1.0,
+      "actual": 1.0,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-06",
+      "name": "Prioritisation Reproducibility",
+      "metric": "score_reproducibility",
+      "target": 1.0,
+      "actual": 1.0,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-07",
+      "name": "Overlap Detection",
+      "metric": "overlap_flagged",
+      "target": true,
+      "actual": true,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-08",
+      "name": "Thin Epic Behaviour",
+      "metric": "questions_exceed_stories",
+      "target": true,
+      "actual": true,
+      "passed": true,
+      "retries": 0,
+      "latency_s": 0.001,
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
+      "run_details": [
+        {
+          "run": 1,
+          "thin_flag": true,
+          "questions": 3,
+          "stories": 1,
+          "passed": true,
+          "latency_s": 0.001
+        },
+        {
+          "run": 2,
+          "thin_flag": true,
+          "questions": 3,
+          "stories": 1,
+          "passed": true,
+          "latency_s": 0.001
+        },
+        {
+          "run": 3,
+          "thin_flag": true,
+          "questions": 3,
+          "stories": 1,
+          "passed": true,
+          "latency_s": 0.001
+        }
+      ]
+    },
+    {
+      "case_id": "TC-09",
+      "name": "Approval Gate and Status Floor",
+      "metric": "structural_gate_passed",
+      "target": true,
+      "actual": true,
+      "passed": true,
+      "retries": 0
+    },
+    {
+      "case_id": "TC-10",
+      "name": "Glossary Consistency",
+      "metric": "inconsistency_surfaced",
+      "target": true,
+      "actual": true,
+      "passed": true,
+      "retries": 0
+    }
+  ]
+}

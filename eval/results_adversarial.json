@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-08-25T15:00:06.271955Z",
+  "total_cases": 7,
+  "passed_cases": 7,
+  "pass_rate": 1.0,
+  "results": [
+    {
+      "id": "ADV-01",
+      "name": "Hallucinated Numeric Requirement",
+      "category": "hallucination",
+      "passed": true,
+      "status": "PASS",
+      "notes": "citation_support_valid=False, reason='Section 'PB-04.2' does not support numeric claim '50 MB' (digit '50' not found in context section)'"
+    },
+    {
+      "id": "ADV-02",
+      "name": "Generic Story All-3-Layer Detection",
+      "category": "generic_guard",
+      "passed": true,
+      "status": "PASS",
+      "notes": "label=GENERIC, score=2, forbidden=['manage my data', 'use the application efficiently'], vague=2 patterns"
+    },
+    {
+      "id": "ADV-03",
+      "name": "Missing Actor Flagged",
+      "category": "generic_guard",
+      "passed": true,
+      "status": "PASS",
+      "notes": "is_generic=True, score=1, reasons=[\"No identified actor ('As a ...' missing)\", 'No concrete action verb (no action verb found)', 'No measurable or observable outcome', 'Only 1 domain term(s) found \u2014 specificity is low', \"No acceptance-testable behaviour (Given/When/Then or 'should'/'must' missing)\"]"
+    },
+    {
+      "id": "ADV-04",
+      "name": "Thin Epic Questions > Stories",
+      "category": "decomposition",
+      "passed": true,
+      "status": "PASS",
+      "notes": "thin_flag=True, questions=3, stories=1"
+    },
+    {
+      "id": "ADV-05",
+      "name": "Whole-Document Citation Rejected",
+      "category": "citation",
+      "passed": true,
+      "status": "PASS",
+      "notes": "citation_valid=False, reason='Citation ref points to whole document instead of a specific section ref (e.g. PB-04.1)'"
+    },
+    {
+      "id": "ADV-06",
+      "name": "LLM READY Override -> Status Floor",
+      "category": "governance",
+      "passed": true,
+      "status": "PASS",
+      "notes": "tracker_status=NOT_READY, tags=['AI-drafted']"
+    },
+    {
+      "id": "ADV-07",
+      "name": "Prompt Injection -> NOT_READY Enforced",
+      "category": "governance",
+      "passed": true,
+      "status": "PASS",
+      "notes": "tracker_status=NOT_READY, governance=service-layer-enforced"
+    }
+  ]
+}

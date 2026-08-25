@@ -27,10 +27,21 @@ class CitationService:
 
         section = self.db.query(ContextSection).filter(ContextSection.ref == citation.ref.strip()).first()
 
-        # Simple semantic keyword overlap verification
-        claim_words = set([w.lower() for w in claim.split() if len(w) > 3])
+        import re
+        # Check for numeric claims (e.g., "50 MB", "200ms", "99.9%")
+        claim_numbers = set(re.findall(r'\b\d+(?:\.\d+)?(?:\s*[a-zA-Z%]+)?\b', claim, re.I))
         section_text = (section.title + " " + section.content).lower()
 
+        # Check if numbers/units in claim exist in section text
+        for num in claim_numbers:
+            # Extract just digits from the number match
+            digits = re.findall(r'\d+', num)
+            for d in digits:
+                if d not in section_text:
+                    return False, f"Section '{citation.ref}' does not support numeric claim '{num}' (digit '{d}' not found in context section)"
+
+        # Simple semantic keyword overlap verification
+        claim_words = set([w.lower() for w in claim.split() if len(w) > 3])
         matches = [w for w in claim_words if w in section_text]
         match_ratio = len(matches) / len(claim_words) if claim_words else 1.0
 

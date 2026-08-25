@@ -67,18 +67,26 @@ python eval/adversarial_run.py
 | Case ID | Test Name | Target | Actual | Evidence Type | Verdict |
 |---------|-----------|--------|--------|---------------|---------|
 | **TC-01** | Citation Resolution | 0 unresolvable | 0 | Deterministic | **PASS** |
-| **TC-02** | Open-Question Recall (Planted Gaps) | 1.0 (3/3) | 1.0 (3/3) | LLM-backed | **PASS** |
-| **TC-03** | Generic Story Rate | ≤ 0.10 | 0.00 | Deterministic | **PASS** |
-| **TC-04** | Decomposition Coverage | ≥ 0.85 | 1.00 | LLM-backed | **PASS** |
-| **TC-05** | Readiness Gate Accuracy | 1.0 (4/4) | 1.0 (4/4) | Deterministic | **PASS** |
-| **TC-06** | Prioritisation Reproducibility | 1.0 | 1.0 | Deterministic | **PASS** |
-| **TC-07** | Overlap Detection | True | True | Deterministic | **PASS** |
-| **TC-08** | Thin Epic Behaviour | True | True | LLM-backed | **PASS** |
-| **TC-09** | Approval Gate and Status Floor | True | True | Deterministic | **PASS** |
-| **TC-10** | Glossary Consistency | True | True | Deterministic | **PASS** |
-| **TOTAL** | **Golden Cases Pass Rate** | **10 / 10** | **100.0%** | | **PASS** |
+| **TC-02** | Open-Question Recall (Planted Gaps) | 1.0 (3/3) | 1.0 (3/3) | 1.0 (3/3) | LLM-backed | **PASS** |
+| **TC-03** | Generic Story Rate | ≤ 0.10 | 0.00 | 0.00 | Deterministic | **PASS** |
+| **TC-04** | Decomposition Coverage | ≥ 0.85 | 1.00 | 1.00 | LLM-backed | **PASS** |
+| **TC-05** | Readiness Gate Accuracy | 1.0 (4/4) | 1.0 (4/4) | 1.0 (4/4) | Deterministic | **PASS** |
+| **TC-06** | Prioritisation Reproducibility | 1.0 | 1.0 | 1.0 | Deterministic | **PASS** |
+| **TC-07** | Overlap Detection | True | True | True | Deterministic | **PASS** |
+| **TC-08** | Thin Epic Behaviour | True | True | True | LLM-backed | **PASS** |
+| **TC-09** | Approval Gate and Status Floor | True | True | True | Deterministic | **PASS** |
+| **TC-10** | Glossary Consistency | True | True | True | Deterministic | **PASS** |
+| **TOTAL** | **Golden Cases Pass Rate** | **10 / 10** | **100.0%** | **100.0%** | **Avg Latency 1.60s** | **PASS** |
 
-*Committed results: `eval/results_mock.json` (Mock) | `eval/results_groq.json` (Groq, observed)*
+*Verified Evidence: `eval/results_mock.json` (Mock 10/10) | `eval/results_groq.json` (Groq 10/10 3-run) | `eval/results_adversarial.json` (Adversarial 7/7)*
+
+### 🧪 Automated Test Suite Summary
+```text
+pytest tests/ -v ──► 24/24 PASS (100%)
+  ├── test_approval_gate.py    (Unit approval gate)
+  ├── test_api_integration.py  (HTTP status codes: 403 Forbidden / 409 Conflict)
+  └── test_e2e_pipeline.py     (5 E2E scenarios: Happy path, Bypass, Thin epic, Hallucination, Generic guard)
+```
 
 ---
 
