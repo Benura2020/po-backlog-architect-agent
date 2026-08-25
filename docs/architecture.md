@@ -20,7 +20,7 @@ flowchart TD
 
     subgraph LLM_LAYER["2. LLM Provider Layer (app/llm/)"]
         LLM_BASE["LLMProvider (Protocol)"]
-        GROQ["GroqProvider (llama-3.3-70b-versatile)"]
+        GROQ["GroqProvider (qwen/qwen3.6-27b)"]
         MOCK_LLM["MockProvider (Offline Deterministic)"]
         LLM_BASE --> GROQ
         LLM_BASE --> MOCK_LLM
@@ -165,7 +165,7 @@ sequenceDiagram
 All external data and provider connections use abstract Python `Protocol` or `ABC` interfaces:
 
 1. **`LLMProvider` Protocol** (`app/llm/base.py`):
-   - `GroqProvider` (`llama-3.3-70b-versatile` via REST API)
+   - `GroqProvider` (`qwen/qwen3.6-27b` via REST API)
    - `MockProvider` (Offline deterministic mock for instant test suites)
 2. **`Tracker` Protocol** (`app/adapters/tracker.py`):
    - `MockTracker` (Local in-memory / audit-logged tracker)

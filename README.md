@@ -4,6 +4,52 @@ An enterprise-grade Product Owner Agent that generates backlog artifacts while e
 
 ---
 
+## 🏆 Verification Snapshot Scorecard
+
+| Metric | Result | Target | Evidence |
+|--------|-------:|-------:|----------|
+| **Automated Tests** | **24 / 24** | 100% | 24 tests across service-level approval enforcement, HTTP integration, and 5 E2E governance scenarios |
+| **Mock Golden Cases** | **10 / 10** | 100% | Deterministic regression harness (`eval/results_mock.json`) |
+| **Live Groq Golden Cases** | **10 / 10** | 100% | 3 repeated runs against live model `qwen/qwen3.6-27b` (`eval/results_groq.json`) |
+| **Average LLM Latency** | **1.60s** | < 5.0s | Measured across live HTTP completion calls |
+| **Validation Failures / Retries** | **0 / 0** | 0 | Pydantic schema validation loop |
+| **Adversarial Probes** | **7 / 7** | 100% | Hallucinated number, generic guard, thin epic, prompt injection (`eval/results_adversarial.json`) |
+| **Secrets Isolation** | **CONFIRMED** | 100% | `.env` gitignored; zero credentials in git history |
+
+---
+
+## 🛡️ Architectural Core Principle: Why the LLM Cannot Directly Write to Tracker
+
+```
+                    Probabilistic LLM
+                            │
+                            ▼
+                    Proposed Draft Payload
+                            │
+                            ▼
+            ┌───────────────┼───────────────┐
+            ▼               ▼               ▼
+        Grounding       GenericGuard       DoR
+            │               │               │
+            └───────────────┼───────────────┘
+                            ▼
+                     Human Approval
+                            │
+                            ▼
+                     ApprovalService
+            (Structural Gate: HTTP 403 / 409)
+                            │
+                            ▼
+              Status Floor: NOT_READY + AI-drafted
+                            │
+                            ▼
+                     External Tracker
+```
+
+> **Governance by Architecture**: The LLM generates proposed backlog artifacts but has **zero direct authority** over external system writes. The Python `ApprovalService` layer independently enforces the approval state machine and status floor (`NOT_READY` + `"AI-drafted"` tag), blocking unapproved writes with `HTTP 403 Forbidden` regardless of model output.
+
+---
+
 ## 🎯 Capability Status Matrix
 
 Every ✅ below is backed by a specific golden test case or test file. No claim is unverified.
@@ -39,7 +85,7 @@ python -m eval.run --provider mock
 **Result: 10/10 (100%) — deterministic baseline**
 
 ### Live LLM Evaluation (GroqProvider)
-Tests LLM-backed capabilities (TC-02, TC-04, TC-08) against the real `llama-3.3-70b-versatile` model.
+Tests LLM-backed capabilities (TC-02, TC-04, TC-08) against the live `qwen/qwen3.6-27b` model on Groq.
 LLM output is probabilistic — results are reported as observed, not guaranteed.
 
 ```bash

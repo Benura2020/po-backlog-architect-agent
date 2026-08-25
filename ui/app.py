@@ -45,7 +45,7 @@ st.caption("AI-powered Product Owner Assistant — Grounded Criteria, Human-Gate
 
 # Sidebar Configuration
 st.sidebar.header("⚙️ Configuration")
-provider_option = st.sidebar.selectbox("LLM Provider", ["Groq (llama-3.3-70b-versatile)", "Mock Provider (Offline Deterministic)"])
+provider_option = st.sidebar.selectbox("LLM Provider", ["Groq (qwen/qwen3.6-27b)", "Mock Provider (Offline Deterministic)"])
 use_mock = "Mock" in provider_option
 
 st.sidebar.divider()
