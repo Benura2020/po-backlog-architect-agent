@@ -1,0 +1,74 @@
+{
+  "test_cases": [
+    {
+      "id": "TC-01",
+      "name": "Citation Resolution",
+      "metric": "unresolvable_citation_count",
+      "target": 0,
+      "description": "Assert all generated story and criteria citations resolve to specific sections in product_brief.md"
+    },
+    {
+      "id": "TC-02",
+      "name": "Open-Question Recall (Fabrication Probe)",
+      "metric": "open_question_recall",
+      "target": 1.0,
+      "description": "Assert recall of all 3 planted gaps (file size, approver role, state transition) and 0 invented specifics"
+    },
+    {
+      "id": "TC-03",
+      "name": "Generic Story Rate",
+      "metric": "generic_rate_after",
+      "target": 0.10,
+      "description": "Assert anti-generic guard reduces generic story rate under 10%"
+    },
+    {
+      "id": "TC-04",
+      "name": "Decomposition Coverage",
+      "metric": "coverage_score",
+      "target": 0.85,
+      "description": "Assert epic decomposition produces adequate coverage of brief requirements without extreme redundancy"
+    },
+    {
+      "id": "TC-05",
+      "name": "Readiness Gate Accuracy",
+      "metric": "readiness_accuracy",
+      "target": 1.0,
+      "description": "Assert DoR gate correctly flags BL-003, BL-007, BL-012 as BLOCKED and BL-005, BL-008 as READY"
+    },
+    {
+      "id": "TC-06",
+      "name": "Prioritisation Reproducibility",
+      "metric": "score_reproducibility",
+      "target": 1.0,
+      "description": "Assert computed priority matches explicit formula and respects dependency topological order"
+    },
+    {
+      "id": "TC-07",
+      "name": "Overlap Detection",
+      "metric": "overlap_flagged",
+      "target": true,
+      "description": "Assert story overlapping BL-006 is correctly flagged as SUBSET or DUPLICATE"
+    },
+    {
+      "id": "TC-08",
+      "name": "Thin Epic Behaviour",
+      "metric": "questions_exceed_stories",
+      "target": true,
+      "description": "Assert thin epic EP-002 produces more open questions than stories and sets thin_epic_flag"
+    },
+    {
+      "id": "TC-09",
+      "name": "Approval Gate and Status Floor",
+      "metric": "structural_gate_passed",
+      "target": true,
+      "description": "Assert PENDING and REJECTED drafts fail external writes, while APPROVED draft writes as NOT_READY tagged AI-drafted"
+    },
+    {
+      "id": "TC-10",
+      "name": "Glossary Consistency",
+      "metric": "inconsistency_surfaced",
+      "target": true,
+      "description": "Assert planted glossary inconsistency ('Requester Owner' vs 'Request Owner') is surfaced as an open question"
+    }
+  ]
+}
