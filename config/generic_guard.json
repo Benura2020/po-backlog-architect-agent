@@ -7,7 +7,78 @@
     "system should work",
     "manage items",
     "do stuff",
-    "quick search so i can find my tickets easily",
-    "review requests submitted to me"
+    "quick search so i can find my tickets",
+    "use the system",
+    "make things better",
+    "improve efficiency",
+    "do my job",
+    "work better",
+    "use the tool",
+    "handle stuff"
+  ],
+  "vague_verb_patterns": [
+    "manage.*(?:data|things|items|stuff|content|information)",
+    "use.*(?:system|application|tool|platform|app)\\s+(?:efficiently|better|faster|easily)",
+    "handle.*(?:request|task|item|thing)s?",
+    "do\\s+(?:stuff|things|tasks)",
+    "work\\s+(?:fast|better|efficiently|well)",
+    "improve\\s+(?:efficiency|things|performance|my work)",
+    "make\\s+(?:it|things|the system)\\s+(?:better|faster|work)",
+    "process\\s+(?:things|stuff|data)\\s+(?:easily|efficiently|better)"
+  ],
+  "specificity_scoring": {
+    "threshold_generic": 2,
+    "threshold_needs_review": 3,
+    "weights": {
+      "role_identified": 1,
+      "concrete_domain_object": 1,
+      "concrete_action": 1,
+      "measurable_outcome": 1,
+      "domain_term_present": 1,
+      "acceptance_testable_behavior": 1
+    }
+  },
+  "domain_terms": [
+    "ticket",
+    "sla",
+    "requester",
+    "catalog",
+    "approval",
+    "queue",
+    "assignment",
+    "escalation",
+    "fulfillment",
+    "intake",
+    "service request",
+    "flowdesk",
+    "dashboard",
+    "attachment",
+    "workflow",
+    "override",
+    "priority",
+    "resolution",
+    "notification",
+    "audit",
+    "agent",
+    "requestor",
+    "approver",
+    "state transition",
+    "status",
+    "comment",
+    "backlog"
+  ],
+  "measurable_outcome_patterns": [
+    "within\\s+\\d+",
+    "less than\\s+\\d+",
+    "under\\s+\\d+",
+    "at least\\s+\\d+",
+    "more than\\s+\\d+",
+    "\\d+\\s*(?:ms|s|seconds|minutes|hours|days|%|percent)",
+    "so that\\s+.{10,}",
+    "in order to\\s+.{10,}"
+  ],
+  "role_patterns": [
+    "as a\\s+\\w+",
+    "as an\\s+\\w+"
   ]
 }

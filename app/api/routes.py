@@ -166,5 +166,9 @@ def write_tracker(draft_id: str, db: Session = Depends(get_db)):
     try:
         record = service.write_draft_to_tracker(draft_id)
         return {"status": "success", "record": record}
-    except (ApprovalRequiredError, AlreadyWrittenError) as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    except ApprovalRequiredError as e:
+        # 403 Forbidden — caller is not permitted to write in current draft state (PENDING or REJECTED)
+        raise HTTPException(status_code=403, detail=str(e))
+    except AlreadyWrittenError as e:
+        # 409 Conflict — idempotency violation, draft has already been written to tracker
+        raise HTTPException(status_code=409, detail=str(e))
