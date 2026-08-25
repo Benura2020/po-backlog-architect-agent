@@ -6,6 +6,10 @@ import httpx
 from pydantic import BaseModel, ValidationError
 from app.llm.base import LLMProvider
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 logger = logging.getLogger(__name__)
 
 
@@ -16,7 +20,7 @@ class GroqProvider(LLMProvider):
         model: Optional[str] = None
     ):
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
-        self.model = model or os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        self.model = model or os.getenv("GROQ_MODEL", "qwen/qwen3.6-27b")
         self.api_url = "https://api.groq.com/openai/v1/chat/completions"
 
         if not self.api_key:
