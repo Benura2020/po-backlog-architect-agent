@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-25T14:11:16.831100Z",
-  "provider": "mock",
-  "model": "deterministic",
-  "llm_runs_per_case": 1,
+  "timestamp": "2026-08-25T14:57:36.034083Z",
+  "provider": "groq",
+  "model": "qwen/qwen3.6-27b",
+  "llm_runs_per_case": 3,
   "total_cases": 10,
   "passed_cases": 10,
   "pass_rate": 1.0,
-  "total_elapsed_s": 0.05,
-  "avg_llm_latency_s": null,
+  "total_elapsed_s": 45.07,
+  "avg_llm_latency_s": 1.602,
   "total_retries": 0,
   "validation_failures": 0,
   "results": [
@@ -28,14 +28,30 @@
       "actual": 1.0,
       "passed": true,
       "retries": 0,
-      "latency_s": 0.006,
-      "provider": "mock",
-      "model": "deterministic",
+      "latency_s": 11.792,
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
       "run_details": [
         {
           "run": 1,
           "recall": 1.0,
-          "latency_s": 0.006,
+          "latency_s": 24.319,
+          "q1": true,
+          "q2": true,
+          "q3": true
+        },
+        {
+          "run": 2,
+          "recall": 1.0,
+          "latency_s": 7.579,
+          "q1": true,
+          "q2": true,
+          "q3": true
+        },
+        {
+          "run": 3,
+          "recall": 1.0,
+          "latency_s": 3.479,
           "q1": true,
           "q2": true,
           "q3": true
@@ -59,15 +75,27 @@
       "actual": 1.0,
       "passed": true,
       "retries": 0,
-      "latency_s": 0.002,
-      "provider": "mock",
-      "model": "deterministic",
+      "latency_s": 2.621,
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
       "run_details": [
         {
           "run": 1,
-          "story_count": 3,
+          "story_count": 2,
           "coverage": 1.0,
-          "latency_s": 0.002
+          "latency_s": 5.524
+        },
+        {
+          "run": 2,
+          "story_count": 2,
+          "coverage": 1.0,
+          "latency_s": 1.14
+        },
+        {
+          "run": 3,
+          "story_count": 2,
+          "coverage": 1.0,
+          "latency_s": 1.199
         }
       ]
     },
@@ -107,11 +135,27 @@
       "passed": true,
       "retries": 0,
       "latency_s": 0.001,
-      "provider": "mock",
-      "model": "deterministic",
+      "provider": "groq",
+      "model": "qwen/qwen3.6-27b",
       "run_details": [
         {
           "run": 1,
+          "thin_flag": true,
+          "questions": 3,
+          "stories": 1,
+          "passed": true,
+          "latency_s": 0.001
+        },
+        {
+          "run": 2,
+          "thin_flag": true,
+          "questions": 3,
+          "stories": 1,
+          "passed": true,
+          "latency_s": 0.001
+        },
+        {
+          "run": 3,
           "thin_flag": true,
           "questions": 3,
           "stories": 1,
