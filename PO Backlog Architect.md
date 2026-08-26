@@ -244,30 +244,30 @@ The plan strictly adheres to all requirements from the 10 Excel tabs (\`Notes/PO
 
 **\#\#\# Component 1: Seed Data Infrastructure (\`data/\`)**
 
-**\#\#\#\# \[NEW\] \[product\_brief.md\](**file:///e:/Digital%20T3/po-backlog-architect-agent/data/product\_brief.md**)**  
+**\#\#\#\# \[NEW\] \[product\_brief.md\](**data/product\_brief.md**)**  
 FlowDesk Internal Service Request Management Platform brief (15 sections, \`PB-01\` … \`PB-15\`), including 3 deliberate gaps:  
 1\. File size limit ("Large files are rejected" — no limit specified)  
 2\. Approver role ("Approvers can override rejected requests" — undefined role)  
 3\. State transition ("Rejected submissions are returned" — undefined state/resubmission)  
 Plus 1 inconsistency ("Requester Owner" vs "Request Owner") and 1 backlog contradiction.
 
-**\#\#\#\# \[NEW\] \[glossary.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/data/glossary.json**)**  
+**\#\#\#\# \[NEW\] \[glossary.json\](**data/glossary.json**)**  
 20 domain terms for FlowDesk with canonical definitions.
 
-**\#\#\#\# \[NEW\] \[backlog.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/data/backlog.json**)**  
+**\#\#\#\# \[NEW\] \[backlog.json\](**data/backlog.json**)**  
 20 mixed-quality items (\`BL-001\` … \`BL-020\`), including 4 readiness test cases (\`BL-003\`, \`BL-007\`, \`BL-012\` blocked; \`BL-005\`, \`BL-008\` pass) and overlap target \`BL-006\`.
 
-**\#\#\#\# \[NEW\] \[epics.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/data/epics.json**)**  
+**\#\#\#\# \[NEW\] \[epics.json\](**data/epics.json**)**  
 \`EP-001\` (detailed document attachment epic) and \`EP-002\` (thin approval automation epic for Golden Case 8).
 
-**\#\#\#\# \[NEW\] \[feedback.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/data/feedback.json**)**  
+**\#\#\#\# \[NEW\] \[feedback.json\](**data/feedback.json**)**  
 Feedback entries with explicit consent true/false records.
 
 \---
 
 **\#\#\# Component 2: Core Models, Schemas & Configuration (\`app/schemas/\`, \`config/\`)**
 
-**\#\#\#\# \[NEW\] \[domain.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/schemas/domain.py**)**  
+**\#\#\#\# \[NEW\] \[domain.py\](**app/schemas/domain.py**)**  
 Pydantic v2 schemas:  
 \- \`Citation\`: \`source\`, \`ref\`, \`quote\`  
 \- \`OpenQuestion\`: \`question\`, \`reason\`, \`missing\_concept\`  
@@ -279,89 +279,89 @@ Pydantic v2 schemas:
 \- \`PriorityScore\`: \`business\_value\`, \`urgency\`, \`risk\_reduction\`, \`strategic\_alignment\`, \`dependency\_penalty\`, \`readiness\_factor\`, \`computed\_score\`, \`rationale\`  
 \- \`OverlapResult\`: \`target\_story\_id\`, \`existing\_item\_id\`, \`relationship\_type\` (\`DUPLICATE\` | \`SUBSET\` | \`SUPERSET\` | \`ADJACENT\`), \`recommendation\`, \`confidence\`
 
-**\#\#\#\# \[NEW\] \[readiness.yaml\](**file:///e:/Digital%20T3/po-backlog-architect-agent/config/readiness.yaml**)**  
+**\#\#\#\# \[NEW\] \[readiness.yaml\](**config/readiness.yaml**)**  
 YAML configuration defining the 6 Definition of Ready rules.
 
-**\#\#\#\# \[NEW\] \[generic\_guard.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/config/generic\_guard.json**)**  
+**\#\#\#\# \[NEW\] \[generic\_guard.json\](**config/generic\_guard.json**)**  
 List of forbidden generic phrases for the anti-generic guard.
 
 \---
 
 **\#\#\# Component 3: LLM & Adapter Layer (\`app/llm/\`, \`app/adapters/\`)**
 
-**\#\#\#\# \[NEW\] \[base.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/llm/base.py**)**  
+**\#\#\#\# \[NEW\] \[base.py\](**app/llm/base.py**)**  
 Abstract \`LLMProvider\` base class and interface.
 
-**\#\#\#\# \[NEW\] \[groq\_provider.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/llm/groq\_provider.py**)**  
+**\#\#\#\# \[NEW\] \[groq\_provider.py\](**app/llm/groq\_provider.py**)**  
 Groq LLM provider implementation with JSON schema retry support.
 
-**\#\#\#\# \[NEW\] \[mock\_provider.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/llm/mock\_provider.py**)**  
+**\#\#\#\# \[NEW\] \[mock\_provider.py\](**app/llm/mock\_provider.py**)**  
 Deterministic Mock LLM provider returning structured JSON for offline eval and unit tests.
 
-**\#\#\#\# \[NEW\] \[tracker.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/adapters/tracker.py**)**  
+**\#\#\#\# \[NEW\] \[tracker.py\](**app/adapters/tracker.py**)**  
 \`Tracker\` protocol and \`MockTracker\` implementation.
 
-**\#\#\#\# \[NEW\] \[doc\_store.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/adapters/doc\_store.py**)**  
+**\#\#\#\# \[NEW\] \[doc\_store.py\](**app/adapters/doc\_store.py**)**  
 \`DocumentStore\` protocol for context documents.
 
 \---
 
 **\#\#\# Component 4: Application Services & Agents (\`app/services/\`, \`app/agents/\`)**
 
-**\#\#\#\# \[NEW\] \[context\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/context\_service.py**)**  
+**\#\#\#\# \[NEW\] \[context\_service.py\](**app/services/context\_service.py**)**  
 SQLite FTS5 indexer for product brief, glossary, and backlog. Enables stable section ref lookup (\`PB-04.2\`) and keyword/semantic search (O1).
 
-**\#\#\#\# \[NEW\] \[citation\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/citation\_service.py**)**  
+**\#\#\#\# \[NEW\] \[citation\_service.py\](**app/services/citation\_service.py**)**  
 Two-level citation enforcement engine (O6):  
 1\. **\*\*Existence check\*\***: Verifies section ref exists in DB.  
 2\. **\*\*Support check\*\***: Verifies section content supports the claim.
 
-**\#\#\#\# \[NEW\] \[criteria\_agent.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/agents/criteria\_agent.py**)**  
+**\#\#\#\# \[NEW\] \[criteria\_agent.py\](**app/agents/criteria\_agent.py**)**  
 Structured acceptance criteria generator (O3) with forced \`open\_questions\` surfacing for planted gaps.
 
-**\#\#\#\# \[NEW\] \[decomposition\_agent.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/agents/decomposition\_agent.py**)**  
+**\#\#\#\# \[NEW\] \[decomposition\_agent.py\](**app/agents/decomposition\_agent.py**)**  
 Epic decomposition agent (O2). Produces grounded stories for detailed epics, and surfaces \`questions \> stories\` for thin epics.
 
-**\#\#\#\# \[NEW\] \[generic\_guard\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/generic\_guard\_service.py**)**  
+**\#\#\#\# \[NEW\] \[generic\_guard\_service.py\](**app/services/generic\_guard\_service.py**)**  
 Anti-generic story checker (O8). Evaluates story descriptions against forbidden patterns, triggers re-generation, and logs before/after metrics.
 
-**\#\#\#\# \[NEW\] \[readiness\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/readiness\_service.py**)**  
+**\#\#\#\# \[NEW\] \[readiness\_service.py\](**app/services/readiness\_service.py**)**  
 Definition of Ready gate (O4). Checks configurable YAML rules and supports human override logging.
 
-**\#\#\#\# \[NEW\] \[approval\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/approval\_service.py**)**  
+**\#\#\#\# \[NEW\] \[approval\_service.py\](**app/services/approval\_service.py**)**  
 Draft approval & status floor gate (O9). Structurally prevents writing non-approved drafts and forces status \`NOT\_READY\` with tag \`AI-drafted\`.
 
-**\#\#\#\# \[NEW\] \[prioritization\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/prioritization\_service.py**)**  
+**\#\#\#\# \[NEW\] \[prioritization\_service.py\](**app/services/prioritization\_service.py**)**  
 Deterministic prioritization engine (O5). Computes score from explicit formula and sorts backlog with topological dependency constraints.
 
-**\#\#\#\# \[NEW\] \[overlap\_service.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/overlap\_service.py**)**  
+**\#\#\#\# \[NEW\] \[overlap\_service.py\](**app/services/overlap\_service.py**)**  
 Overlap detection engine (O7). Identifies relationship type (\`DUPLICATE\`, \`SUBSET\`, etc.) and recommends merge options.
 
 \---
 
 **\#\#\# Component 5: Data Persistence & Database (\`app/db/\`, \`app/models/\`)**
 
-**\#\#\#\# \[NEW\] \[database.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/db/database.py**)**  
+**\#\#\#\# \[NEW\] \[database.py\](**app/db/database.py**)**  
 SQLAlchemy SQLite database setup.
 
-**\#\#\#\# \[NEW\] \[models.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/models/models.py**)**  
+**\#\#\#\# \[NEW\] \[models.py\](**app/models/models.py**)**  
 ORM models: \`ContextSection\`, \`BacklogItem\`, \`Draft\`, \`ApprovalLog\`, \`WriteLog\`.
 
 \---
 
 **\#\#\# Component 6: FastAPI Application (\`app/main.py\`, \`app/api/\`)**
 
-**\#\#\#\# \[NEW\] \[main.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/main.py**)**  
+**\#\#\#\# \[NEW\] \[main.py\](**app/main.py**)**  
 FastAPI application entry point.
 
-**\#\#\#\# \[NEW\] \[routes.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/app/api/routes.py**)**  
+**\#\#\#\# \[NEW\] \[routes.py\](**app/api/routes.py**)**  
 REST endpoints for context indexing, decomposition, criteria generation, readiness checking, prioritization, approval queue, and external writes.
 
 \---
 
 **\#\#\# Component 7: Streamlit User Interface (\`ui/\`)**
 
-**\#\#\#\# \[NEW\] \[app.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/ui/app.py**)**  
+**\#\#\#\# \[NEW\] \[app.py\](**ui/app.py**)**  
 Streamlit multi-tab dashboard:  
 1\. **\*\*Context & Search\*\***: Browse sections, glossary, search brief with FTS5.  
 2\. **\*\*Epic Decomposition\*\***: Decompose detailed and thin epics.  
@@ -375,19 +375,19 @@ Streamlit multi-tab dashboard:
 
 **\#\#\# Component 8: Evaluation Harness & Tests (\`eval/\`, \`tests/\`)**
 
-**\#\#\#\# \[NEW\] \[golden\_cases.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/eval/golden\_cases.json**)**  
+**\#\#\#\# \[NEW\] \[golden\_cases.json\](**eval/golden\_cases.json**)**  
 Golden test case definitions matching Golden Cases 1–10.
 
-**\#\#\#\# \[NEW\] \[run.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/eval/run.py**)**  
+**\#\#\#\# \[NEW\] \[run.py\](**eval/run.py**)**  
 Executable evaluation harness script (\`python \-m eval.run\`). Evaluates agent against all 10 Golden Cases and saves results to \`eval/results.json\`.
 
-**\#\#\#\# \[NEW\] \[results.json\](**file:///e:/Digital%20T3/po-backlog-architect-agent/eval/results.json**)**  
+**\#\#\#\# \[NEW\] \[results.json\](**eval/results.json**)**  
 Committed output file from evaluation runs.
 
-**\#\#\#\# \[NEW\] \[test\_approval\_gate.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/tests/test\_approval\_gate.py**)**  
+**\#\#\#\# \[NEW\] \[test\_approval\_gate.py\](**tests/test\_approval\_gate.py**)**  
 Unit tests asserting that pending and rejected drafts cannot be written to external systems (Golden Case 9).
 
-**\#\#\#\# \[NEW\] \[test\_grounding.py\](**file:///e:/Digital%20T3/po-backlog-architect-agent/tests/test\_grounding.py**)**  
+**\#\#\#\# \[NEW\] \[test\_grounding.py\](**tests/test\_grounding.py**)**  
 Unit tests asserting citation resolution and open-question surfacing for planted gaps (Golden Cases 1 & 2).
 
 \---
@@ -508,21 +508,21 @@ TOTAL PASSED: 10 / 10 (100.0%)
 
 | Component | File Path | Description |  
 |-----------|-----------|-------------|  
-| **\*\*Seed Dataset\*\*** | \[product\_brief.md\](file:///e:/Digital%20T3/po-backlog-architect-agent/data/product\_brief.md) | FlowDesk specification (15 sections \`PB-01\` … \`PB-15\`) with 3 planted gaps, 1 glossary inconsistency, and 1 contradiction. |  
-| **\*\*Domain Schemas\*\*** | \[domain.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/schemas/domain.py) | Pydantic v2 domain schemas for criteria, stories, DoR, priority, and overlap. |  
-| **\*\*Context Indexer (O1)\*\*** | \[context\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/context\_service.py) | Markdown section parser & SQLite FTS5 full-text indexer. |  
-| **\*\*Grounding & Citations (O6)\*\*** | \[citation\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/citation\_service.py) | Claim-level citation verification engine. |  
-| **\*\*Criteria Generator (O3)\*\*** | \[criteria\_agent.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/agents/criteria\_agent.py) | Structured GWT criteria generator with forced open question surfacing for planted gaps. |  
-| **\*\*Epic Decomposer (O2)\*\*** | \[decomposition\_agent.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/agents/decomposition\_agent.py) | Decomposes epics; thin epics surface \`questions \> stories\`. |  
-| **\*\*Anti-Generic Guard (O8)\*\*** | \[generic\_guard\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/generic\_guard\_service.py) | Pattern checker driven by \`generic\_guard.json\`. |  
-| **\*\*DoR Gate (O4)\*\*** | \[readiness\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/readiness\_service.py) | Configurable YAML rule evaluator & human override log. |  
-| **\*\*Approval Gate (O9)\*\*** | \[approval\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/approval\_service.py) | Structural human approval gate & \`NOT\_READY\` status floor. |  
-| **\*\*Prioritization (O5)\*\*** | \[prioritization\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/prioritization\_service.py) | Deterministic scoring formula & topological sprint sorter. |  
-| **\*\*Overlap Detector (O7)\*\*** | \[overlap\_service.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/overlap\_service.py) | Detects relationship types (\`DUPLICATE\`, \`SUBSET\`, etc.). |  
-| **\*\*FastAPI REST Server\*\*** | \[main.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/app/main.py) | Backend REST API server. |  
-| **\*\*Streamlit Dashboard\*\*** | \[app.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/ui/app.py) | Multi-tab UI for context, criteria, DoR, priority, approval queue, and eval harness. |  
-| **\*\*Eval Harness\*\*** | \[run.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/run.py) | Automated test case runner evaluating Golden Cases 1–10. |  
-| **\*\*Unit Tests\*\*** | \[test\_approval\_gate.py\](file:///e:/Digital%20T3/po-backlog-architect-agent/tests/test\_approval\_gate.py) | Pytest assertions for approval gate, status floor, and idempotency. |
+| **\*\*Seed Dataset\*\*** | \[product\_brief.md\](data/product\_brief.md) | FlowDesk specification (15 sections \`PB-01\` … \`PB-15\`) with 3 planted gaps, 1 glossary inconsistency, and 1 contradiction. |  
+| **\*\*Domain Schemas\*\*** | \[domain.py\](app/schemas/domain.py) | Pydantic v2 domain schemas for criteria, stories, DoR, priority, and overlap. |  
+| **\*\*Context Indexer (O1)\*\*** | \[context\_service.py\](app/services/context\_service.py) | Markdown section parser & SQLite FTS5 full-text indexer. |  
+| **\*\*Grounding & Citations (O6)\*\*** | \[citation\_service.py\](app/services/citation\_service.py) | Claim-level citation verification engine. |  
+| **\*\*Criteria Generator (O3)\*\*** | \[criteria\_agent.py\](app/agents/criteria\_agent.py) | Structured GWT criteria generator with forced open question surfacing for planted gaps. |  
+| **\*\*Epic Decomposer (O2)\*\*** | \[decomposition\_agent.py\](app/agents/decomposition\_agent.py) | Decomposes epics; thin epics surface \`questions \> stories\`. |  
+| **\*\*Anti-Generic Guard (O8)\*\*** | \[generic\_guard\_service.py\](app/services/generic\_guard\_service.py) | Pattern checker driven by \`generic\_guard.json\`. |  
+| **\*\*DoR Gate (O4)\*\*** | \[readiness\_service.py\](app/services/readiness\_service.py) | Configurable YAML rule evaluator & human override log. |  
+| **\*\*Approval Gate (O9)\*\*** | \[approval\_service.py\](app/services/approval\_service.py) | Structural human approval gate & \`NOT\_READY\` status floor. |  
+| **\*\*Prioritization (O5)\*\*** | \[prioritization\_service.py\](app/services/prioritization\_service.py) | Deterministic scoring formula & topological sprint sorter. |  
+| **\*\*Overlap Detector (O7)\*\*** | \[overlap\_service.py\](app/services/overlap\_service.py) | Detects relationship types (\`DUPLICATE\`, \`SUBSET\`, etc.). |  
+| **\*\*FastAPI REST Server\*\*** | \[main.py\](app/main.py) | Backend REST API server. |  
+| **\*\*Streamlit Dashboard\*\*** | \[app.py\](ui/app.py) | Multi-tab UI for context, criteria, DoR, priority, approval queue, and eval harness. |  
+| **\*\*Eval Harness\*\*** | \[run.py\](eval/run.py) | Automated test case runner evaluating Golden Cases 1–10. |  
+| **\*\*Unit Tests\*\*** | \[test\_approval\_gate.py\](tests/test\_approval\_gate.py) | Pytest assertions for approval gate, status floor, and idempotency. |
 
 \---
 

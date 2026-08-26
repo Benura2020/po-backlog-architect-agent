@@ -12,7 +12,7 @@ The ChatGPT review rated the current build at **8.5–9/10** and identified the 
 
 The review specifically called out the GenericGuard as only doing substring matching. The evaluator will likely probe this.
 
-#### [MODIFY] [generic_guard_service.py](file:///e:/Digital%20T3/po-backlog-architect-agent/app/services/generic_guard_service.py)
+#### [MODIFY] [generic_guard_service.py](app/services/generic_guard_service.py)
 
 Add **3 detection layers** to the existing service:
 1. **Layer 1 (existing)**: Exact forbidden phrase match
@@ -25,7 +25,7 @@ Add **3 detection layers** to the existing service:
 
 The review said the evaluation only used MockProvider. An evaluator can tell immediately. We need to run the same golden cases with **both providers** and show a side-by-side report.
 
-#### [MODIFY] [eval/run.py](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/run.py)
+#### [MODIFY] [eval/run.py](eval/run.py)
 
 Add a `--provider` CLI arg (`mock` or `groq`). When run with `groq`, it uses `GroqProvider` for TC-02 (open questions), TC-04 (decomposition), TC-08 (thin epic). Save result to `eval/results_groq.json` vs `eval/results_mock.json`.
 
@@ -70,7 +70,7 @@ A pytest test that:
 
 The README currently has a status table with some `⚠ partial` entries. After hardening, update these to reflect true status. Also add a **"How to Run Evaluation"** section.
 
-#### [MODIFY] [README.md](file:///e:/Digital%20T3/po-backlog-architect-agent/README.md)
+#### [MODIFY] [README.md](README.md)
 
 - Update status matrix to reflect all 10 golden cases passing
 - Add eval run instructions: `python -m eval.run --provider mock` and `python -m eval.run --provider groq`

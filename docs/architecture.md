@@ -92,7 +92,7 @@ sequenceDiagram
     participant UI as Streamlit UI / FastAPI
     participant CS as ContextService (FTS5)
     participant Agent as CriteriaAgent / DecompositionAgent
-    participant Guard as GenericGuardService
+    participant Guard as GenericGuardService (app/services/generic_guard_service.py)
     participant DoR as ReadinessService
     participant Gate as ApprovalService
     participant DB as SQLite DB

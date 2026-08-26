@@ -90,9 +90,10 @@ Executed via `python eval/adversarial_run.py` against the core service layer:
 
 ## 📁 Artifact Locations
 
-- Golden cases harness: [eval/run.py](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/run.py)
-- Comparison runner: [eval/compare.py](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/compare.py)
-- Adversarial test runner: [eval/adversarial_run.py](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/adversarial_run.py)
-- Mock results JSON: [eval/results_mock.json](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/results_mock.json)
-- Groq results JSON: [eval/results_groq.json](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/results_groq.json)
-- Adversarial results JSON: [eval/results_adversarial.json](file:///e:/Digital%20T3/po-backlog-architect-agent/eval/results_adversarial.json)
+- Golden cases harness: [eval/run.py](eval/run.py)
+- Comparison runner: [eval/compare.py](eval/compare.py)
+- Adversarial test runner: [eval/adversarial_run.py](eval/adversarial_run.py)
+- Golden Cases JSON: [eval/golden_cases.json](eval/golden_cases.json)
+- Mock Results JSON: [eval/results_mock.json](eval/results_mock.json)
+- Groq Results JSON: [eval/results_groq.json](eval/results_groq.json)
+- Adversarial results JSON: [eval/results_adversarial.json](eval/results_adversarial.json)
