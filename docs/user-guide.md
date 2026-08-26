@@ -18,7 +18,7 @@ When you launch the Streamlit dashboard (`http://localhost:8501`), the left side
 
 ## 🔍 Tab 1: Context Indexing & Addressable Search (O1)
 
-![Tab 1: Context Search](tab1_context_search_1787716306788.png)
+![Tab 1: Context Search](images/tab1_context_search.png)
 
 ### Purpose
 Search the indexed **FlowDesk Product Brief** (`product_brief.md`) using SQLite FTS5 full-text search. Every section is indexed with precise section IDs (`PB-01` … `PB-15`).
@@ -36,7 +36,7 @@ Search the indexed **FlowDesk Product Brief** (`product_brief.md`) using SQLite 
 
 ## 🧩 Tab 2: Epic Decomposer & Gap Detection (O2)
 
-![Tab 2: Epic Decomposer](tab2_epic_decomposer_1787716319132.png)
+![Tab 2: Epic Decomposer](images/tab2_epic_decomposer.png)
 
 ### Purpose
 Decomposes high-level epics into user stories, surfaced open questions, and missing domain concepts.
@@ -55,7 +55,7 @@ Decomposes high-level epics into user stories, surfaced open questions, and miss
 
 ## 📋 Tab 3: Acceptance Criteria & Anti-Generic Guard (O3/O6/O8)
 
-![Tab 3: Criteria Generator](tab3_criteria_generator_1787716337412.png)
+![Tab 3: Criteria Generator](images/tab3_criteria_generator.png)
 
 ### Purpose
 Generates Given/When/Then (GWT) acceptance criteria with claim-level citations and runs the **3-Layer Anti-Generic Guard**.
@@ -75,7 +75,7 @@ Generates Given/When/Then (GWT) acceptance criteria with claim-level citations a
 
 ## 🚦 Tab 4: Definition of Ready (DoR) Gate (O4)
 
-![Tab 4: Readiness Gate](tab4_readiness_gate_1787716352079.png)
+![Tab 4: Readiness Gate](images/tab4_readiness_gate.png)
 
 ### Purpose
 Evaluates stories against 6 configurable Definition of Ready rules specified in `config/readiness.yaml`.
@@ -95,7 +95,7 @@ Evaluates stories against 6 configurable Definition of Ready rules specified in 
 
 ## 📊 Tab 5: Prioritization Engine (O5)
 
-![Tab 5: Prioritization](tab5_prioritization_1787716372351.png)
+![Tab 5: Prioritization](images/tab5_prioritization.png)
 
 ### Purpose
 Calculates deterministic priority scores using an explicit formula and performs topological sorting for sprint sequencing.
@@ -111,7 +111,7 @@ Calculates deterministic priority scores using an explicit formula and performs 
 
 ## 🔍 Tab 6: Overlap & Duplicate Detector (O7)
 
-![Tab 6: Overlap Detector](tab6_overlap_detector_1787716386013.png)
+![Tab 6: Overlap Detector](images/tab6_overlap_detector.png)
 
 ### Purpose
 Detects relationships between new request stories and existing backlog items to prevent duplicate engineering effort.
@@ -126,7 +126,7 @@ Detects relationships between new request stories and existing backlog items to 
 
 ## 🔐 Tab 7: Approval Queue & Write Gate (O9)
 
-![Tab 7: Approval Queue](tab7_approval_queue_1787716398957.png)
+![Tab 7: Approval Queue](images/tab7_approval_queue.png)
 
 ### Purpose
 Demonstrates the structural human approval gate, status floor enforcement, and external tracker write protection.
