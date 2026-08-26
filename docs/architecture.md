@@ -67,9 +67,9 @@ flowchart TD
         APPROVAL -- "Requires Human Approval\nForces status=NOT_READY" --> MOCK_TRACKER
     end
 
-    subgraph INTERFACE["7. User & API Interface (app/main.py, ui/app.py)"]
+    subgraph INTERFACE["7. User & API Interface (app/main.py, ui/dashboard.py)"]
         FASTAPI["FastAPI Backend (/api/v1)"]
-        STREAMLIT["Streamlit Dashboard (ui/app.py)"]
+        STREAMLIT["Streamlit Dashboard (ui/dashboard.py)"]
         EVAL_HARNESS["Eval Harness (eval/run.py - 10 Golden Cases)"]
 
         GOVERNANCE --> FASTAPI

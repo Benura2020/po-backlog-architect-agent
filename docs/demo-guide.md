@@ -107,7 +107,7 @@ python eval/adversarial_run.py
 
 # 6. Launch FastAPI backend & Streamlit UI
 uvicorn app.main:app --reload
-streamlit run ui/app.py
+streamlit run ui/dashboard.py
 ```
 
 ---

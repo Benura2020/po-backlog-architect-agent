@@ -204,7 +204,7 @@ python eval/adversarial_run.py
 uvicorn app.main:app --reload
 
 # Streamlit dashboard (separate terminal)
-streamlit run ui/app.py
+streamlit run ui/dashboard.py
 ```
 
 ---
@@ -212,7 +212,7 @@ streamlit run ui/app.py
 ## 🏗️ Architecture & Component Boundaries
 
 ```
- Streamlit Dashboard (ui/app.py) ──► FastAPI REST API (app/main.py)
+ Streamlit Dashboard (ui/dashboard.py) ──► FastAPI REST API (app/main.py)
                                            │
  ┌─────────────────────────────────────────┴─────────────────────────────────────────┐
  │                                Core Agent Engine                                  │

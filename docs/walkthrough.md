@@ -48,7 +48,7 @@ TOTAL PASSED: 10 / 10 (100.0%)
 | **Prioritization (O5)** | [prioritization_service.py](app/services/prioritization_service.py) | Deterministic scoring formula & topological sprint sorter. |
 | **Overlap Detector (O7)** | [overlap_service.py](app/services/overlap_service.py) | Detects relationship types (`DUPLICATE`, `SUBSET`, etc.). |
 | **FastAPI REST Server** | [main.py](app/main.py) | Backend REST API server. |
-| **Streamlit Dashboard** | [app.py](ui/app.py) | Multi-tab UI for context, criteria, DoR, priority, approval queue, and eval harness. |
+| **Streamlit Dashboard** | [app.py](ui/dashboard.py) | Multi-tab UI for context, criteria, DoR, priority, approval queue, and eval harness. |
 | **Eval Harness** | [run.py](eval/run.py) | Automated test case runner evaluating Golden Cases 1–10. |
 | **Unit Tests** | [test_approval_gate.py](tests/test_approval_gate.py) | Pytest assertions for approval gate, status floor, and idempotency. |
 
@@ -70,5 +70,5 @@ python -m eval.run
 
 ### 3. Launch Streamlit UI Dashboard
 ```bash
-streamlit run ui/app.py
+streamlit run ui/dashboard.py
 ```
