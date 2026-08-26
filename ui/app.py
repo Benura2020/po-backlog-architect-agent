@@ -2,8 +2,13 @@ import os
 import sys
 import json
 
-# Ensure root project directory is in sys.path when running via Streamlit
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+
+# Remove colliding 'app' module if registered as ui/app.py by Streamlit runner
+if "app" in sys.modules and getattr(sys.modules["app"], "__file__", "").endswith("app.py"):
+    del sys.modules["app"]
 
 import streamlit as st
 from sqlalchemy.orm import Session
