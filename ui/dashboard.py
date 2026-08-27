@@ -381,11 +381,16 @@ with tabs[6]:
     pending_or_approved = [d for d in drafts if d.status in [DraftStatus.PENDING, DraftStatus.APPROVED]]
 
     if not pending_or_approved:
-        # Automatically generate a clean PENDING demo draft DFT-001
+        import uuid
+        fresh_id = f"DFT-{uuid.uuid4().hex[:4].upper()}"
+        existing_dft1 = db.query(DraftModel).filter(DraftModel.id == "DFT-001").first()
+        if not existing_dft1:
+            fresh_id = "DFT-001"
+
         approval_svc.create_draft(
             item_type="STORY",
             title="Configure Service Catalog Form Fields",
-            payload={"id": "DFT-001", "title": "Configure Service Catalog Form Fields", "description": "Define custom text and dropdown fields for catalog templates", "citations": ["PB-03"]}
+            payload={"id": fresh_id, "title": "Configure Service Catalog Form Fields", "description": "Define custom text and dropdown fields for catalog templates", "citations": ["PB-03"]}
         )
         drafts = approval_svc.get_all_drafts()
 
