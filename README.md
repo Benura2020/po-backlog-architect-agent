@@ -234,6 +234,11 @@ LLM Providers (adapter pattern):
 
 ---
 
-## 🤖 Declaration of AI Assistance
+## 🤖 Declaration of AI Assistance & Tools Stack
 
-This codebase was developed with pair-programming assistance from Antigravity AI assistant following the prompt engineering and architectural standards outlined in Digital T3's assessment specification. All code, database schemas, gating logic, unit tests, evaluation scripts, and adversarial probes have been fully verified and tested locally.
+This application and engineering submission were developed using an integrated AI engineering & research stack:
+- **Primary Agentic IDE**: **Google Antigravity IDE** — Used for end-to-end agentic pair-programming, automated pytest execution, browser subagent UI testing, and documentation generation.
+- **Live LLM Inference**: **Groq Free API (`qwen/qwen3.6-27b`)** — Primary open-weights LLM provider for live, low-latency structured JSON artifact generation.
+- **Architectural & Conceptual Research**: **ChatGPT**, **Gemini**, **Perplexity**, **Manus**, and **Claude** — Used during Days 1–2 research for competitive benchmark design, prompt guard modeling, FTS5 retrieval strategy, and decision log validation.
+
+All code, database schemas, gating logic, unit tests, evaluation scripts, and adversarial probes have been fully verified, executed, and committed locally.
