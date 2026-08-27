@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-27T00:36:09.678892Z",
+  "timestamp": "2026-08-27T08:24:55.168310Z",
   "provider": "mock",
   "model": "deterministic",
   "llm_runs_per_case": 1,
   "total_cases": 10,
   "passed_cases": 10,
   "pass_rate": 1.0,
-  "total_elapsed_s": 0.05,
+  "total_elapsed_s": 0.07,
   "avg_llm_latency_s": null,
   "total_retries": 0,
   "validation_failures": 0,
@@ -59,7 +59,7 @@
       "actual": 1.0,
       "passed": true,
       "retries": 0,
-      "latency_s": 0.004,
+      "latency_s": 0.002,
       "provider": "mock",
       "model": "deterministic",
       "run_details": [
@@ -67,7 +67,7 @@
           "run": 1,
           "story_count": 3,
           "coverage": 1.0,
-          "latency_s": 0.004
+          "latency_s": 0.002
         }
       ]
     },
