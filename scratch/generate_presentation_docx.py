@@ -291,9 +291,10 @@ add_speech_box(
         "We don't ask the LLM for priority; we compute it deterministically.\n"
         "In Tab 6 [SHOW UI: Streamlit Tab 6 - Overlap Detector (O7)], "
         "Overlap Detector [SHOW CODE: app/services/overlap_service.py: L20 - L70] "
-        "checks candidate story BL-006 'Upload Supporting Documents' "
-        "[ACTION: Review pre-filled New Story Title & Description, then click 'Check Backlog Overlap'] "
-        "against existing backlog stories and identifies it as a SUBSET of story BL-001 with high confidence, recommending a merge."
+        "checks candidate stories against existing backlog items. "
+        "When I select candidate story BL-006 'Upload Supporting Documents' "
+        "[ACTION: Select 'BL-006: Upload Supporting Documents' from dropdown and click 'Check Backlog Overlap'], "
+        "the engine compares semantic overlap against the database and identifies it as an exact DUPLICATE with 100% confidence, recommending that the duplicate be archived or discarded."
     ),
     img_path=os.path.join(img_dir, "tab4_readiness_gate.png")
 )
