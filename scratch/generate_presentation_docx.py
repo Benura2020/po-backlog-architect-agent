@@ -256,12 +256,13 @@ add_speech_box(
     spoken_lyrics=(
         "In Tab 3, we generate Given/When/Then acceptance criteria "
         "[SHOW UI: Streamlit Tab 3 - Criteria Generator (O3/O6/O8)]. "
-        "When I select story BL-001 [ACTION: Select story 'BL-001' and click 'Generate Criteria'], "
-        "the agent produces testable GWT scenarios and attaches verified citation PB-04.1. "
+        "The UI pre-fills candidate story BL-006—'Upload Supporting Documents to Request' "
+        "[ACTION: Review pre-filled Story Title & Description, then click 'Generate Acceptance Criteria']. "
+        "When I click 'Generate Acceptance Criteria', the agent produces testable GWT scenarios and attaches verified citation PB-04.1. "
         "Our CitationService [SHOW CODE: app/services/citation_service.py: L30 - L95] checks both existence and numeric term grounding.\n"
         "Below, we have our 3-Layer Anti-Generic Guard [SHOW UI: Streamlit Tab 3 Lower Section]. "
         "If someone inputs a vague requirement like 'Manage my data efficiently' "
-        "[ACTION: Type 'Manage my data efficiently' in custom text box and click 'Evaluate Specificity'], "
+        "[ACTION: Type 'Manage my data efficiently' in custom text box and click 'Evaluate Specificity & Rewrite'], "
         "our guard evaluates 3 layers: Layer 1 exact phrase match ('manage data'), Layer 2 vague verb regex ('manage') "
         "[SHOW CODE: config/generic_guard.json: L1 - L35], "
         "and Layer 3 specificity score [SHOW CODE: app/services/generic_guard_service.py: L40 - L110]. "
@@ -278,10 +279,10 @@ add_speech_box(
     spoken_lyrics=(
         "In Tab 4, we evaluate the Definition of Ready "
         "[SHOW UI: Streamlit Tab 4 - Readiness Gate (O4)]. "
-        "Selecting BL-003 [ACTION: Select 'BL-003' and click 'Evaluate Readiness']—which lacks acceptance criteria—"
-        "fails rule check 'has_acceptance_criteria' "
+        "Selecting BL-003 [ACTION: Select 'BL-003: Quick Search Tickets' from dropdown and click 'Evaluate Readiness']—"
+        "which lacks acceptance criteria—fails rule check 'has_acceptance_criteria' "
         "[SHOW CODE: config/readiness.yaml: L1 - L32 and app/services/readiness_service.py: L25 - L75] "
-        "and returns status BLOCKED. Selecting BL-005 [ACTION: Select 'BL-005' and click 'Evaluate Readiness'] "
+        "and returns status BLOCKED. Selecting BL-005 [ACTION: Select 'BL-005: Multi-File Attachment Processing' and click 'Evaluate Readiness'] "
         "passes all 6 YAML rules and returns status READY.\n"
         "In Tab 5 [SHOW UI: Streamlit Tab 5 - Prioritization Engine (O5)], "
         "our Prioritization Engine automatically calculates scores on page load "
@@ -290,8 +291,9 @@ add_speech_box(
         "We don't ask the LLM for priority; we compute it deterministically.\n"
         "In Tab 6 [SHOW UI: Streamlit Tab 6 - Overlap Detector (O7)], "
         "Overlap Detector [SHOW CODE: app/services/overlap_service.py: L20 - L70] "
-        "checks new candidate story BL-006 [ACTION: Select 'BL-006' and click 'Check Overlap'] "
-        "against existing backlog stories and identifies it as a SUBSET of story BL-001 with 92% confidence, recommending a merge."
+        "checks candidate story BL-006 'Upload Supporting Documents' "
+        "[ACTION: Review pre-filled New Story Title & Description, then click 'Check Backlog Overlap'] "
+        "against existing backlog stories and identifies it as a SUBSET of story BL-001 with high confidence, recommending a merge."
     ),
     img_path=os.path.join(img_dir, "tab4_readiness_gate.png")
 )
