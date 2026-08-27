@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-25T14:11:16.831100Z",
+  "timestamp": "2026-08-27T00:36:09.678892Z",
   "provider": "mock",
   "model": "deterministic",
   "llm_runs_per_case": 1,
@@ -28,14 +28,14 @@
       "actual": 1.0,
       "passed": true,
       "retries": 0,
-      "latency_s": 0.006,
+      "latency_s": 0.007,
       "provider": "mock",
       "model": "deterministic",
       "run_details": [
         {
           "run": 1,
           "recall": 1.0,
-          "latency_s": 0.006,
+          "latency_s": 0.007,
           "q1": true,
           "q2": true,
           "q3": true
@@ -59,7 +59,7 @@
       "actual": 1.0,
       "passed": true,
       "retries": 0,
-      "latency_s": 0.002,
+      "latency_s": 0.004,
       "provider": "mock",
       "model": "deterministic",
       "run_details": [
@@ -67,7 +67,7 @@
           "run": 1,
           "story_count": 3,
           "coverage": 1.0,
-          "latency_s": 0.002
+          "latency_s": 0.004
         }
       ]
     },
