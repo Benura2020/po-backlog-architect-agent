@@ -191,6 +191,8 @@ add_speech_box(
     title="The Opening Pitch & Governance Philosophy",
     spoken_lyrics=(
         "Hello everyone! Today I'm presenting the PO Backlog Architect Agent for FlowDesk. "
+        "Notice in our Streamlit sidebar that we support two LLM providers via our abstract LLMProvider protocol: "
+        "GroqProvider using open-weights model qwen/qwen3.6-27b for live AI inference, and MockProvider for fast, 0.05-second deterministic offline testing. "
         "When engineering teams try using LLMs to generate user stories and acceptance criteria, three major failure modes occur: "
         "First, hallucinated technical requirements—like an AI inventing a 50 MB file size limit when the specification has no exact number. "
         "Second, generic story proliferation—vague user stories like 'As a user, I want to manage data efficiently' that fail Definition of Ready. "
@@ -200,10 +202,10 @@ add_speech_box(
         "evaluates Definition of Ready rules, and enforces a structural human approval gate with an immutable NOT_READY status floor."
     ),
     screen_action=(
-        "1. Start on Streamlit UI homepage (http://localhost:8501). Point out sidebar configuration: Groq (qwen/qwen3.6-27b) and active safeguards.\n"
-        "2. Switch VS Code window to README.md lines 212-235 (Architecture ASCII Diagram)."
+        "1. Start on Streamlit UI homepage (http://localhost:8501). Point out sidebar dropdown: toggle between 'Groq (qwen/qwen3.6-27b)' and 'Mock (Deterministic)', and show active safeguards.\n"
+        "2. Switch VS Code window to README.md lines 212-235 (Architecture ASCII Diagram showing LLMProvider interface)."
     ),
-    source_file_lines="README.md: L212 - L235 (Architecture Component Boundaries Diagram)",
+    source_file_lines="• README.md: L212 - L235 (Architecture Component Boundaries Diagram)\n• LLM Provider Base: app/llm/base.py: L1 - L30 (LLMProvider protocol)\n• Groq Live Provider: app/llm/groq_provider.py: L1 - L85 (qwen/qwen3.6-27b model)\n• Mock Offline Provider: app/llm/mock_provider.py: L1 - L75 (deterministic response mock)",
     img_path=os.path.join(img_dir, "tab1_context_search.png")
 )
 

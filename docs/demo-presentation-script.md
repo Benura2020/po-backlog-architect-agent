@@ -19,10 +19,14 @@
 ## ⏱️ Minute-by-Minute Script & Visual Actions
 
 ### Part 1: 0:00 – 1:30 | Opening Pitch & Architecture Philosophy
-* **Screen Action**: Streamlit UI Homepage ([http://localhost:8501](http://localhost:8501)), then switch to VS Code [`README.md:L212-L235`](README.md#L212-L235).
-* **Code Reference**: `README.md:L212-L235` (Architecture Component Boundaries Diagram)
+* **Screen Action**: Streamlit UI Homepage ([http://localhost:8501](http://localhost:8501)). Point out sidebar dropdown: toggle between `Groq (qwen/qwen3.6-27b)` and `Mock (Deterministic)`. Then switch to VS Code [`README.md:L212-L235`](README.md#L212-L235).
+* **Code Reference**:
+  - `README.md:L212-L235` (Architecture Component Boundaries Diagram)
+  - `app/llm/base.py:L1-L30` (`LLMProvider` abstract protocol)
+  - `app/llm/groq_provider.py:L1-L85` (`GroqProvider` using `qwen/qwen3.6-27b`)
+  - `app/llm/mock_provider.py:L1-L75` (`MockProvider` deterministic mock)
 * **Word-for-Word Spoken Script**:
-  > *"Hello everyone! Today I'm presenting the PO Backlog Architect Agent for FlowDesk. When engineering teams try using LLMs to generate user stories and acceptance criteria, three major failure modes occur: First, hallucinated technical requirements—like an AI inventing a 50 MB file size limit when the specification has no exact number. Second, generic story proliferation—vague user stories like 'As a user, I want to manage data efficiently' that fail Definition of Ready. And third, uncontrolled external writes—where an LLM pushes unreviewed items directly into Jira or Azure DevOps as READY. Our core design philosophy is GOVERNANCE OVER GENERATION. The LLM proposes artifacts, but deterministic Python service code validates section-level citations, scores anti-generic specificity across 3 layers, evaluates Definition of Ready rules, and enforces a structural human approval gate with an immutable NOT_READY status floor."*
+  > *"Hello everyone! Today I'm presenting the PO Backlog Architect Agent for FlowDesk. Notice in our Streamlit sidebar that we support two LLM providers via our abstract LLMProvider protocol: GroqProvider using open-weights model qwen/qwen3.6-27b for live AI inference, and MockProvider for fast, 0.05-second deterministic offline testing. When engineering teams try using LLMs to generate user stories and acceptance criteria, three major failure modes occur: First, hallucinated technical requirements—like an AI inventing a 50 MB file size limit when the specification has no exact number. Second, generic story proliferation—vague user stories like 'As a user, I want to manage data efficiently' that fail Definition of Ready. And third, uncontrolled external writes—where an LLM pushes unreviewed items directly into Jira or Azure DevOps as READY. Our core design philosophy is GOVERNANCE OVER GENERATION. The LLM proposes artifacts, but deterministic Python service code validates section-level citations, scores anti-generic specificity across 3 layers, evaluates Definition of Ready rules, and enforces a structural human approval gate with an immutable NOT_READY status floor."*
 
 ---
 
