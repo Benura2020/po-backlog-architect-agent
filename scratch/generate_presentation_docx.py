@@ -92,7 +92,7 @@ def add_bullet(text, bold_prefix=""):
     r.font.size = Pt(10)
     return p
 
-def add_speech_box(time_range, title, spoken_lyrics, screen_action, source_file_lines, img_path=None):
+def add_speech_box(time_range, title, spoken_lyrics, img_path=None):
     tbl = doc.add_table(rows=1, cols=1)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.autofit = False
@@ -124,43 +124,50 @@ def add_speech_box(time_range, title, spoken_lyrics, screen_action, source_file_
     r_hdr.font.size = Pt(12)
     r_hdr.font.color.rgb = RGBColor(16, 44, 87)
     
-    # Screen Action
-    r_act_hdr = p.add_run("🖥️ SCREEN ACTION / WHAT TO SHOW ON SCREEN:\n")
-    r_act_hdr.bold = True
-    r_act_hdr.font.name = 'Calibri'
-    r_act_hdr.font.size = Pt(10)
-    r_act_hdr.font.color.rgb = RGBColor(30, 86, 160)
-    
-    r_act = p.add_run(f"{screen_action}\n\n")
-    r_act.font.name = 'Calibri'
-    r_act.font.size = Pt(10)
-    r_act.font.color.rgb = RGBColor(40, 40, 40)
-    
-    # Source File Lines
-    r_file_hdr = p.add_run("📁 EXACT CODE FILE & LINE NUMBERS TO SHOW IN VS CODE:\n")
-    r_file_hdr.bold = True
-    r_file_hdr.font.name = 'Calibri'
-    r_file_hdr.font.size = Pt(10)
-    r_file_hdr.font.color.rgb = RGBColor(180, 50, 20)
-    
-    r_file = p.add_run(f"{source_file_lines}\n\n")
-    r_file.font.name = 'Calibri'
-    r_file.font.size = Pt(9.5)
-    r_file.bold = True
-    r_file.font.color.rgb = RGBColor(30, 30, 30)
-    
-    # Spoken Lyrics
-    r_spk_hdr = p.add_run("🎙️ WORD-FOR-WORD SPOKEN SCRIPT (\"LYRICS\"):\n")
+    # Spoken Lyrics with Inline Cues
+    r_spk_hdr = p.add_run("🎙️ WORD-FOR-WORD SPOKEN SCRIPT WITH INLINE VISUAL & CODE CUES:\n")
     r_spk_hdr.bold = True
     r_spk_hdr.font.name = 'Calibri'
     r_spk_hdr.font.size = Pt(10.5)
     r_spk_hdr.font.color.rgb = RGBColor(16, 44, 87)
     
-    r_spk = p.add_run(f'"{spoken_lyrics}"\n')
-    r_spk.font.name = 'Calibri'
-    r_spk.font.size = Pt(10.5)
-    r_spk.italic = True
-    r_spk.font.color.rgb = RGBColor(20, 20, 20)
+    # Format inline [SHOW: ...] and [ACTION: ...] tags nicely
+    parts = spoken_lyrics.split("[")
+    p_spk = cell.add_paragraph()
+    p_spk.paragraph_format.space_after = Pt(4)
+    p_spk.paragraph_format.line_spacing = 1.15
+    
+    for idx, pt in enumerate(parts):
+        if idx == 0:
+            r = p_spk.add_run(pt)
+            r.font.name = 'Calibri'
+            r.font.size = Pt(10.5)
+            r.font.color.rgb = RGBColor(30, 30, 30)
+        else:
+            if "]" in pt:
+                tag_content, text_content = pt.split("]", 1)
+                r_tag = p_spk.add_run(f"[{tag_content}] ")
+                r_tag.bold = True
+                r_tag.font.name = 'Calibri'
+                r_tag.font.size = Pt(9.5)
+                if tag_content.startswith("SHOW CODE"):
+                    r_tag.font.color.rgb = RGBColor(180, 50, 20) # Red/Orange for code
+                elif tag_content.startswith("SHOW UI"):
+                    r_tag.font.color.rgb = RGBColor(30, 86, 160) # Blue for UI
+                elif tag_content.startswith("ACTION"):
+                    r_tag.font.color.rgb = RGBColor(0, 120, 50) # Green for actions
+                else:
+                    r_tag.font.color.rgb = RGBColor(120, 40, 140)
+                    
+                r_txt = p_spk.add_run(text_content)
+                r_txt.font.name = 'Calibri'
+                r_txt.font.size = Pt(10.5)
+                r_txt.font.color.rgb = RGBColor(30, 30, 30)
+            else:
+                r = p_spk.add_run("[" + pt)
+                r.font.name = 'Calibri'
+                r.font.size = Pt(10.5)
+                r.font.color.rgb = RGBColor(30, 30, 30)
     
     # Image if available
     if img_path and os.path.exists(img_path):
@@ -174,13 +181,13 @@ def add_speech_box(time_range, title, spoken_lyrics, screen_action, source_file_
     p_after.paragraph_format.space_after = Pt(6)
 
 # Title
-add_title("PO Backlog Architect Agent — Word-for-Word Demo Script & Visual Timeline", 
-          "Complete Minute-by-Minute Presentation Script ('Lyrics'), Visual Screen Actions, Code Line References, and Tab-by-Tab Demo Walkthrough for Digital T3 Submission")
+add_title("PO Backlog Architect Agent — Word-for-Word Presentation Script with Inline Screen & Code Cues", 
+          "Complete Live Presentation Script ('Lyrics') with Integrated Screen Cues, VS Code Line References, and Embedded Screenshots for Digital T3 Submission")
 
-add_p("This document is your exact step-by-step script for delivering your live presentation and video demo to Digital T3. It contains what to say ('lyrics'), what to display on screen at every moment, exact VS Code line numbers, and embedded UI screenshots.", bold_prefix="Presentation Setup Instructions: ")
+add_p("This document is your complete word-for-word presentation script. As you speak each sentence out loud, the inline bracketed tags tell you exactly what to show on screen [SHOW UI: ...], what file and line to display in VS Code [SHOW CODE: ...], or what button to click [ACTION: ...].", bold_prefix="Presentation Setup & How to Use: ")
 
 add_bullet("Do NOT use PowerPoint slides. Share your desktop screen with Streamlit UI (http://localhost:8501) on the left half and VS Code on the right half.", "Visual Setup: ")
-add_bullet("FastAPI Server running in Terminal 1 (uvicorn app.main:app --reload) and Streamlit running in Terminal 2 (streamlit run ui/dashboard.py).", "Pre-Demo Terminals: ")
+add_bullet("Terminal 1 running uvicorn app.main:app --reload and Terminal 2 running streamlit run ui/dashboard.py.", "Pre-Demo Terminals: ")
 
 img_dir = r"e:\Digital T3\po-backlog-architect-agent\docs\images"
 
@@ -191,21 +198,22 @@ add_speech_box(
     title="The Opening Pitch & Governance Philosophy",
     spoken_lyrics=(
         "Hello everyone! Today I'm presenting the PO Backlog Architect Agent for FlowDesk. "
-        "Notice in our Streamlit sidebar that we support two LLM providers via our abstract LLMProvider protocol: "
-        "GroqProvider using open-weights model qwen/qwen3.6-27b for live AI inference, and MockProvider for fast, 0.05-second deterministic offline testing. "
+        "[SHOW UI: Streamlit Sidebar at http://localhost:8501 - LLM Provider Selector & Active Safeguards] "
+        "Notice in our Streamlit sidebar that we support two LLM providers via our abstract LLMProvider protocol "
+        "[SHOW CODE: app/llm/base.py: L1 - L30 (LLMProvider abstract protocol)]: "
+        "GroqProvider using open-weights model qwen/qwen3.6-27b for live AI inference "
+        "[SHOW CODE: app/llm/groq_provider.py: L1 - L85], "
+        "and MockProvider for fast, 0.05-second deterministic offline testing "
+        "[SHOW CODE: app/llm/mock_provider.py: L1 - L75]. "
         "When engineering teams try using LLMs to generate user stories and acceptance criteria, three major failure modes occur: "
         "First, hallucinated technical requirements—like an AI inventing a 50 MB file size limit when the specification has no exact number. "
         "Second, generic story proliferation—vague user stories like 'As a user, I want to manage data efficiently' that fail Definition of Ready. "
         "And third, uncontrolled external writes—where an LLM pushes unreviewed items directly into Jira or Azure DevOps as READY. "
-        "Our core design philosophy is GOVERNANCE OVER GENERATION. "
+        "Our core design philosophy is GOVERNANCE OVER GENERATION "
+        "[SHOW CODE: README.md: L212 - L235 (Architecture Component Boundaries Diagram)]. "
         "The LLM proposes artifacts, but deterministic Python service code validates section-level citations, scores anti-generic specificity across 3 layers, "
         "evaluates Definition of Ready rules, and enforces a structural human approval gate with an immutable NOT_READY status floor."
     ),
-    screen_action=(
-        "1. Start on Streamlit UI homepage (http://localhost:8501). Point out sidebar dropdown: toggle between 'Groq (qwen/qwen3.6-27b)' and 'Mock (Deterministic)', and show active safeguards.\n"
-        "2. Switch VS Code window to README.md lines 212-235 (Architecture ASCII Diagram showing LLMProvider interface)."
-    ),
-    source_file_lines="• README.md: L212 - L235 (Architecture Component Boundaries Diagram)\n• LLM Provider Base: app/llm/base.py: L1 - L30 (LLMProvider protocol)\n• Groq Live Provider: app/llm/groq_provider.py: L1 - L85 (qwen/qwen3.6-27b model)\n• Mock Offline Provider: app/llm/mock_provider.py: L1 - L75 (deterministic response mock)",
     img_path=os.path.join(img_dir, "tab1_context_search.png")
 )
 
@@ -215,21 +223,22 @@ add_speech_box(
     time_range="1:30 – 3:00",
     title="Context Indexing (O1) & Epic Decomposition (O2)",
     spoken_lyrics=(
-        "First, let's look at Context Indexing in Tab 1. We parse the FlowDesk product brief into 15 addressable sections, indexed with SQLite FTS5. "
-        "If I search 'file upload', the engine retrieves section PB-04.1. This addressable indexing is what enables claim-level citation validation.\n"
-        "Now let's move to Tab 2: Epic Decomposition. If I select EP-001—a detailed document management epic—the agent generates structured stories with citations.\n"
-        "However, look at EP-002—a thin, 6-word epic titled 'Automate Approval Overrides'. Instead of fabricating fake requirements, "
-        "our decomposition agent detects that detail is missing and surfaces Open Questions to the Product Owner first, such as 'What role is authorized to perform overrides?'"
-    ),
-    screen_action=(
-        "1. Click Streamlit Tab 1 (Context Search). Type 'file upload' in search bar, click 'Search Context'. Expand section card [PB-04.1].\n"
-        "2. Click Streamlit Tab 2 (Epic Decomposer). Select 'EP-001', click 'Decompose Epic'. Show generated stories.\n"
-        "3. Select 'EP-002' (Thin Epic), click 'Decompose Epic'. Point out the red warning banner and Open Questions surfaced."
-    ),
-    source_file_lines=(
-        "• Context Indexer: app/services/context_service.py: L15 - L65 (index_markdown_brief)\n"
-        "• Seed Epics: data/epics.json: L1 - L17 (EP-001 detailed vs EP-002 thin)\n"
-        "• Decomposer Agent: app/agents/decomposition_agent.py: L20 - L80 (decompose_epic)"
+        "First, let's look at Context Indexing in Tab 1 "
+        "[SHOW UI: Streamlit Tab 1 - Context Search (O1)]. "
+        "We parse the FlowDesk product brief into 15 addressable sections, indexed with SQLite FTS5 "
+        "[SHOW CODE: app/services/context_service.py: L15 - L65 (index_markdown_brief)]. "
+        "If I search 'file upload' [ACTION: Type 'file upload' into search box and click 'Search Context'], "
+        "the engine retrieves section PB-04.1. This addressable indexing is what enables claim-level citation validation.\n"
+        "Now let me move to Tab 2: Epic Decomposition "
+        "[SHOW UI: Streamlit Tab 2 - Epic Decomposer (O2)]. "
+        "If I select EP-001—a detailed document management epic "
+        "[SHOW CODE: data/epics.json: L1 - L8 (EP-001 definition) and ACTION: Select 'EP-001' and click 'Decompose Epic']—"
+        "the agent generates structured stories with citations "
+        "[SHOW CODE: app/agents/decomposition_agent.py: L20 - L80]. "
+        "However, look at EP-002—a thin, 6-word epic titled 'Automate Approval Overrides' "
+        "[SHOW CODE: data/epics.json: L9 - L16 (EP-002 thin epic) and ACTION: Select 'EP-002' and click 'Decompose Epic']. "
+        "Instead of fabricating fake requirements, our decomposition agent detects that detail is missing and surfaces Open Questions to the Product Owner first, "
+        "such as 'What role is authorized to perform overrides?'"
     ),
     img_path=os.path.join(img_dir, "tab2_epic_decomposer.png")
 )
@@ -240,21 +249,18 @@ add_speech_box(
     time_range="3:00 – 4:30",
     title="Acceptance Criteria, Citation Validation & Anti-Generic Guard",
     spoken_lyrics=(
-        "In Tab 3, we generate Given/When/Then acceptance criteria. When I select story BL-001, the agent produces testable GWT scenarios "
-        "and attaches verified citation PB-04.1. Our CitationService checks both existence and numeric term grounding.\n"
-        "Below, we have our 3-Layer Anti-Generic Guard. If someone inputs a vague requirement like 'Manage my data efficiently', "
-        "our guard evaluates 3 layers: Layer 1 exact phrase match ('manage data'), Layer 2 vague verb regex ('manage'), and Layer 3 specificity score.\n"
+        "In Tab 3, we generate Given/When/Then acceptance criteria "
+        "[SHOW UI: Streamlit Tab 3 - Criteria Generator (O3/O6/O8)]. "
+        "When I select story BL-001 [ACTION: Select story 'BL-001' and click 'Generate Criteria'], "
+        "the agent produces testable GWT scenarios and attaches verified citation PB-04.1. "
+        "Our CitationService [SHOW CODE: app/services/citation_service.py: L30 - L95] checks both existence and numeric term grounding.\n"
+        "Below, we have our 3-Layer Anti-Generic Guard [SHOW UI: Streamlit Tab 3 Lower Section]. "
+        "If someone inputs a vague requirement like 'Manage my data efficiently' "
+        "[ACTION: Type 'Manage my data efficiently' in custom text box and click 'Evaluate Specificity'], "
+        "our guard evaluates 3 layers: Layer 1 exact phrase match ('manage data'), Layer 2 vague verb regex ('manage') "
+        "[SHOW CODE: config/generic_guard.json: L1 - L35], "
+        "and Layer 3 specificity score [SHOW CODE: app/services/generic_guard_service.py: L40 - L110]. "
         "It flags the story as GENERIC (Score = 1) and automatically rewrites it into a domain-specific user story with a measurable outcome."
-    ),
-    screen_action=(
-        "1. Click Streamlit Tab 3 (Criteria Generator). Select story 'BL-001', click 'Generate Criteria'. Show GWT scenarios & PB-04.1 citation.\n"
-        "2. Scroll down to Anti-Generic Guard. Type 'Manage my data efficiently' in custom text box, click 'Evaluate Specificity'.\n"
-        "3. Point out 3-layer diagnostic breakdown (GENERIC, Score 1) and the auto-rewritten story."
-    ),
-    source_file_lines=(
-        "• Citation Service: app/services/citation_service.py: L30 - L95 (validate_citation_support & numeric term check)\n"
-        "• Generic Config: config/generic_guard.json: L1 - L35 (forbidden_phrases & vague_verbs)\n"
-        "• Generic Guard Service: app/services/generic_guard_service.py: L40 - L110 (evaluate_specificity & rewrite)"
     ),
     img_path=os.path.join(img_dir, "tab3_criteria_generator.png")
 )
@@ -265,22 +271,22 @@ add_speech_box(
     time_range="4:30 – 6:00",
     title="Definition of Ready Gate, Formula Prioritization & Overlap Detector",
     spoken_lyrics=(
-        "In Tab 4, we evaluate the Definition of Ready. Selecting BL-003—which lacks acceptance criteria—fails rule check 'has_acceptance_criteria' "
-        "and returns status BLOCKED. Selecting BL-005 passes all 6 YAML rules and returns status READY.\n"
-        "In Tab 5, our Prioritization Engine calculates scores using a transparent mathematical formula combining Business Value, Urgency, Risk Reduction, "
-        "Dependency Penalty, and Readiness Factor. We don't ask the LLM for priority; we compute it deterministically.\n"
-        "In Tab 6, Overlap Detector checks new candidate story BL-006 against existing backlog stories and identifies it as a SUBSET of story BL-001 with 92% confidence, recommending a merge."
-    ),
-    screen_action=(
-        "1. Click Streamlit Tab 4 (Readiness Gate). Select 'BL-003', click 'Evaluate Readiness' -> Show BLOCKED. Select 'BL-005' -> Show READY.\n"
-        "2. Click Streamlit Tab 5 (Prioritization). Click 'Run Prioritization Engine' -> Show sorted priority table & formula breakdown.\n"
-        "3. Click Streamlit Tab 6 (Overlap Detector). Select 'BL-006', click 'Check Overlap' -> Show SUBSET match with BL-001."
-    ),
-    source_file_lines=(
-        "• Readiness YAML: config/readiness.yaml: L1 - L32 (6 active rules)\n"
-        "• Readiness Service: app/services/readiness_service.py: L25 - L75 (evaluate_readiness)\n"
-        "• Prioritization Service: app/services/prioritization_service.py: L30 - L80 (calculate_priority_score formula)\n"
-        "• Overlap Service: app/services/overlap_service.py: L20 - L70 (check_overlap)"
+        "In Tab 4, we evaluate the Definition of Ready "
+        "[SHOW UI: Streamlit Tab 4 - Readiness Gate (O4)]. "
+        "Selecting BL-003 [ACTION: Select 'BL-003' and click 'Evaluate Readiness']—which lacks acceptance criteria—"
+        "fails rule check 'has_acceptance_criteria' "
+        "[SHOW CODE: config/readiness.yaml: L1 - L32 and app/services/readiness_service.py: L25 - L75] "
+        "and returns status BLOCKED. Selecting BL-005 [ACTION: Select 'BL-005' and click 'Evaluate Readiness'] "
+        "passes all 6 YAML rules and returns status READY.\n"
+        "In Tab 5 [SHOW UI: Streamlit Tab 5 - Prioritization Engine (O5)], "
+        "our Prioritization Engine [SHOW CODE: app/services/prioritization_service.py: L30 - L80] "
+        "calculates scores using a transparent mathematical formula combining Business Value, Urgency, Risk Reduction, Dependency Penalty, and Readiness Factor "
+        "[ACTION: Click 'Run Prioritization Engine']. "
+        "We don't ask the LLM for priority; we compute it deterministically.\n"
+        "In Tab 6 [SHOW UI: Streamlit Tab 6 - Overlap Detector (O7)], "
+        "Overlap Detector [SHOW CODE: app/services/overlap_service.py: L20 - L70] "
+        "checks new candidate story BL-006 [ACTION: Select 'BL-006' and click 'Check Overlap'] "
+        "against existing backlog stories and identifies it as a SUBSET of story BL-001 with 92% confidence, recommending a merge."
     ),
     img_path=os.path.join(img_dir, "tab4_readiness_gate.png")
 )
@@ -291,23 +297,21 @@ add_speech_box(
     time_range="6:00 – 7:30",
     title="The Killer Demo: Human Approval Gate & Status Floor (O9)",
     spoken_lyrics=(
-        "Now for our core safety control in Tab 7: The Human Approval Gate and Status Floor.\n"
-        "Notice draft DFT-001 in the queue with status PENDING. If an external system or user attempts to write this unapproved draft directly to MockTracker, "
-        "watch what happens when I click 'Write to Tracker': The service layer rejects the call and returns HTTP 403 Forbidden: Draft must be APPROVED.\n"
-        "Now, as the human Product Owner, I click 'Approve Draft'. The status changes to APPROVED.\n"
-        "Now I click 'Write to Tracker' again. The call succeeds with HTTP 200 OK. But look at MockTracker: "
+        "Now for our core safety control in Tab 7: The Human Approval Gate and Status Floor "
+        "[SHOW UI: Streamlit Tab 7 - Approval Queue (O9)].\n"
+        "Notice draft DFT-001 in the queue with status PENDING. "
+        "If an external system or user attempts to write this unapproved draft directly to MockTracker, "
+        "watch what happens when I click 'Write to Tracker' "
+        "[ACTION 1: Click 'Write to Tracker' on PENDING draft]: "
+        "The service layer rejects the call and returns HTTP 403 Forbidden: Draft must be APPROVED "
+        "[SHOW CODE: app/services/approval_service.py: L72 (if draft.status != ApprovalStatus.APPROVED: raise ApprovalRequiredError)].\n"
+        "Now, as the human Product Owner, I click 'Approve Draft' [ACTION 2: Click 'Approve Draft']. "
+        "The status changes to APPROVED.\n"
+        "Now I click 'Write to Tracker' again [ACTION 3: Click 'Write to Tracker']. "
+        "The call succeeds with HTTP 200 OK. But look at MockTracker "
+        "[SHOW CODE: app/services/approval_service.py: L90 - L115 (write_draft_to_tracker forcing status=NOT_READY)]: "
         "Even though the draft was approved, the status is forcibly locked at NOT_READY and tagged 'AI-drafted'. "
         "This guarantees that no AI item enters a sprint without final human PO review."
-    ),
-    screen_action=(
-        "1. Click Streamlit Tab 7 (Approval Queue). Select draft 'DFT-001' (Status: PENDING).\n"
-        "2. FIRST CLICK: Click 'Write to Tracker' -> Show red error banner 'HTTP 403 Forbidden'. Open VS Code app/services/approval_service.py line 72.\n"
-        "3. SECOND CLICK: Click 'Approve Draft' -> Show status badge update to APPROVED.\n"
-        "4. THIRD CLICK: Click 'Write to Tracker' -> Show HTTP 200 OK success banner and MockTracker item with status NOT_READY and tag AI-drafted."
-    ),
-    source_file_lines=(
-        "• Approval Service Gate: app/services/approval_service.py: L65 - L85 (line 72: if draft.status != ApprovalStatus.APPROVED: raise ApprovalRequiredError)\n"
-        "• Status Floor Override: app/services/approval_service.py: L90 - L115 (write_draft_to_tracker: forces status=NOT_READY, tags=['AI-drafted'])"
     ),
     img_path=os.path.join(img_dir, "tab7_approval_queue.png")
 )
@@ -318,23 +322,19 @@ add_speech_box(
     time_range="7:30 – 9:00",
     title="Empirical Evaluation Harness & Adversarial Probes",
     spoken_lyrics=(
-        "To prove our system is robust beyond UI demonstrations, we built an automated evaluation suite.\n"
-        "In Terminal, I run 'python -m eval.run --provider mock'—achieving 10/10 PASS across all Golden Cases in 0.05 seconds.\n"
-        "Next, running 'python eval/compare.py' benchmarks our deterministic Mock against live Groq LLM inference with qwen/qwen3.6-27b over 3 repeated runs. "
+        "To prove our system is robust beyond UI demonstrations, we built an automated evaluation suite "
+        "[SHOW UI: Switch focus to Terminal window].\n"
+        "In Terminal, I run 'python -m eval.run --provider mock' "
+        "[ACTION: Run 'python -m eval.run --provider mock' in Terminal and SHOW CODE: eval/run.py: L20 - L100]—"
+        "achieving 10/10 PASS across all Golden Cases in 0.05 seconds.\n"
+        "Next, running 'python eval/compare.py' "
+        "[ACTION: Run 'python eval/compare.py' in Terminal and SHOW CODE: eval/compare.py: L10 - L60] "
+        "benchmarks our deterministic Mock against live Groq LLM inference with qwen/qwen3.6-27b over 3 repeated runs. "
         "Groq achieves 10/10 PASS with 1.45-second average latency, zero retries, and zero schema failures.\n"
-        "Finally, running 'python eval/adversarial_run.py' executes 7 adversarial probes—achieving 7/7 PASS. "
+        "Finally, running 'python eval/adversarial_run.py' "
+        "[ACTION: Run 'python eval/adversarial_run.py' in Terminal and SHOW CODE: eval/adversarial_run.py: L15 - L90] "
+        "executes 7 adversarial probes—achieving 7/7 PASS. "
         "For example, ADV-01 injects a hallucinated '50 MB' file limit. CitationService detects that '50 MB' is not in PB-04.2 and rejects the claim."
-    ),
-    screen_action=(
-        "1. Switch screen focus to Terminal window.\n"
-        "2. Type: python -m eval.run --provider mock -> Show 10/10 PASS output table.\n"
-        "3. Type: python eval/compare.py -> Show side-by-side Mock vs Groq benchmark report.\n"
-        "4. Type: python eval/adversarial_run.py -> Show 7/7 PASS output (pointing out ADV-01 numeric grounding rejection)."
-    ),
-    source_file_lines=(
-        "• Golden Harness: eval/run.py: L20 - L100 (run_eval & provider CLI)\n"
-        "• Side-by-Side Reporter: eval/compare.py: L10 - L60 (compare_results)\n"
-        "• Adversarial Runner: eval/adversarial_run.py: L15 - L90 (run_adversarial_suite)"
     ),
     img_path=os.path.join(img_dir, "tab5_prioritization.png")
 )
@@ -346,17 +346,17 @@ add_speech_box(
     title="Architectural Trade-offs & Q&A Defense",
     spoken_lyrics=(
         "In conclusion, our project evolved from a feature prototype into a governed AI Product Owner system.\n"
-        "We made three key architectural decisions documented in our ADR log:\n"
-        "First, we chose SQLite FTS5 over Vector DBs because our product brief is structured into addressable sections (PB-01 to PB-15). FTS5 provides 100% deterministic lookup with zero vector infrastructure overhead.\n"
-        "Second, we built MockProvider alongside GroqProvider to enable fast, reproducible CI regression testing.\n"
-        "And third, we enforced approval gating and status floors in Python service objects rather than complex graph frameworks, keeping the codebase clean, maintainable, and robust.\n"
+        "We made three key architectural decisions documented in our ADR log "
+        "[SHOW CODE: docs/decision-log.md: L1 - L150]:\n"
+        "First, we chose SQLite FTS5 over Vector DBs [SHOW CODE: docs/decision-log.md - ADR-002] "
+        "because our product brief is structured into addressable sections (PB-01 to PB-15). FTS5 provides 100% deterministic lookup with zero vector infrastructure overhead.\n"
+        "Second, we built MockProvider alongside GroqProvider [SHOW CODE: docs/decision-log.md - ADR-004] "
+        "to enable fast, reproducible CI regression testing.\n"
+        "And third, we enforced approval gating and status floors in Python service objects "
+        "[SHOW CODE: docs/decision-log.md - ADR-006 & ADR-008] "
+        "rather than complex graph frameworks, keeping the codebase clean, maintainable, and robust.\n"
         "Thank you! I am now ready for any technical questions."
     ),
-    screen_action=(
-        "1. Switch VS Code window to docs/decision-log.md (ADR-002, ADR-004, ADR-006, ADR-008).\n"
-        "2. End presentation with full confidence."
-    ),
-    source_file_lines="docs/decision-log.md: L1 - L150 (ADR-001 through ADR-008 Architecture Decision Records)",
     img_path=os.path.join(img_dir, "tab6_overlap_detector.png")
 )
 
@@ -367,4 +367,4 @@ root_doc_path = r"e:\Digital T3\po-backlog-architect-agent\PO_Backlog_Architect_
 doc.save(out_doc_path)
 doc.save(root_doc_path)
 
-print(f"Demo presentation docx successfully generated at: {out_doc_path} and {root_doc_path}")
+print(f"Demo presentation docx successfully regenerated at: {out_doc_path} and {root_doc_path}")
