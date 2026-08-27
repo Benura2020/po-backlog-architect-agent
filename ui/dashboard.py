@@ -142,12 +142,39 @@ with tabs[2]:
     st.header("✍️ Structured Acceptance Criteria & Planted Gaps (O3, O6)")
     st.write("Generate Given/When/Then acceptance criteria with mandatory open questions for planted silences.")
 
-    story_title = st.text_input("Story Title", value="Upload Supporting Documents to Request")
-    story_desc = st.text_area("Story Description", value="As a Requester, I want to attach PDF and image files to my service ticket so fulfillment agents have necessary context.")
+    items = db.query(BacklogItemModel).all()
+    if not items:
+        from app.seed import seed_database
+        seed_database()
+        items = db.query(BacklogItemModel).all()
+
+    item_options_tab3 = ["Custom Story / Free Text Input"] + [f"{i.id}: {i.title}" for i in items]
+    default_idx_tab3 = 0
+    for idx, opt in enumerate(item_options_tab3):
+        if "BL-006" in opt:
+            default_idx_tab3 = idx
+            break
+
+    sel_story_tab3 = st.selectbox("Select Backlog Story to Populate (or edit custom text below)", item_options_tab3, index=default_idx_tab3, key="tab3_story_select")
+
+    default_title = "Upload Supporting Documents to Request"
+    default_desc = "As a Requester, I want to attach PDF and image files to my service ticket so fulfillment agents have necessary context."
+    selected_story_id = "BL-006"
+
+    if sel_story_tab3 != "Custom Story / Free Text Input":
+        sel_id = sel_story_tab3.split(":")[0]
+        selected_story_id = sel_id
+        db_item = db.query(BacklogItemModel).filter(BacklogItemModel.id == sel_id).first()
+        if db_item:
+            default_title = db_item.title
+            default_desc = db_item.description
+
+    story_title = st.text_input("Story Title", value=default_title, key="tab3_title_input")
+    story_desc = st.text_area("Story Description", value=default_desc, key="tab3_desc_input")
 
     if st.button("Generate Acceptance Criteria"):
         agent = CriteriaAgent(llm, db)
-        draft = agent.generate_criteria("BL-006", story_title, story_desc)
+        draft = agent.generate_criteria(selected_story_id, story_title, story_desc)
 
         st.success("Criteria generated successfully!")
 
@@ -293,8 +320,27 @@ with tabs[5]:
     st.header("🔄 Backlog Overlap Detection (O7)")
     st.write("Detect relationship types (`DUPLICATE`, `SUBSET`, `SUPERSET`, `ADJACENT`) between new stories and existing backlog.")
 
-    ov_title = st.text_input("New Story Title", value="Upload Supporting Documents to Request")
-    ov_desc = st.text_area("New Story Description", value="As a Requester, I want to attach PDF files to my ticket")
+    item_options_tab6 = ["Custom Story / Free Text Input"] + [f"{i.id}: {i.title}" for i in items]
+    default_idx_tab6 = 0
+    for idx, opt in enumerate(item_options_tab6):
+        if "BL-006" in opt:
+            default_idx_tab6 = idx
+            break
+
+    sel_story_tab6 = st.selectbox("Select Candidate Story to Populate (or edit custom text below)", item_options_tab6, index=default_idx_tab6, key="tab6_story_select")
+
+    default_ov_title = "Upload Supporting Documents to Request"
+    default_ov_desc = "As a Requester, I want to attach PDF files to my ticket"
+
+    if sel_story_tab6 != "Custom Story / Free Text Input":
+        sel_id = sel_story_tab6.split(":")[0]
+        db_item = db.query(BacklogItemModel).filter(BacklogItemModel.id == sel_id).first()
+        if db_item:
+            default_ov_title = db_item.title
+            default_ov_desc = db_item.description
+
+    ov_title = st.text_input("New Story Title", value=default_ov_title, key="tab6_title_input")
+    ov_desc = st.text_area("New Story Description", value=default_ov_desc, key="tab6_desc_input")
 
     if st.button("Check Backlog Overlap"):
         from app.schemas.domain import StoryDraft
