@@ -137,7 +137,7 @@ with tabs[1]:
                 for q in res.open_questions:
                     st.error(f"**{q.question}**\n\n*Reason*: {q.reason}")
 
-# TAB 3: CRITERIA GENERATOR (O3, O6)
+# TAB 3: CRITERIA GENERATOR & ANTI-GENERIC GUARD (O3, O6, O8)
 with tabs[2]:
     st.header("✍️ Structured Acceptance Criteria & Planted Gaps (O3, O6)")
     st.write("Generate Given/When/Then acceptance criteria with mandatory open questions for planted silences.")
@@ -164,6 +164,63 @@ with tabs[2]:
             st.subheader("🔗 Addressable Section Citations")
             for cit in draft.citations:
                 st.markdown(f"-[{cit.ref}] Source: {cit.source}")
+
+    st.divider()
+    st.header("🛡️ 3-Layer Anti-Generic Guard & Story Rewriter (O8)")
+    st.write("Evaluate any story against the 3-Layer Anti-Generic Guard (Exact phrase match, Vague verb regex, Specificity scoring).")
+
+    guard_title = st.text_input("Test Story Title for Specificity Check", value="Manage my data efficiently", key="guard_title_input")
+    guard_desc = st.text_area("Test Story Description", value="As a user I want to manage my data efficiently so that I can work.", key="guard_desc_input")
+
+    if st.button("Evaluate Specificity & Rewrite"):
+        from app.services.generic_guard_service import GenericGuardService
+        from app.schemas.domain import StoryDraft
+
+        guard_service = GenericGuardService()
+        sample_draft = StoryDraft(
+            id="TEST-001",
+            title=guard_title,
+            description=guard_desc,
+            rationale="Test item for specificity evaluation"
+        )
+        res = guard_service.evaluate(sample_draft)
+
+        if res.is_generic:
+            st.error(f"🚨 Flagged as **{res.specificity_label}** (Specificity Score: {res.specificity_score} / 6)")
+        else:
+            st.success(f"✅ Classified as **{res.specificity_label}** (Specificity Score: {res.specificity_score} / 6)")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("**Layer 1: Forbidden Phrases**")
+            if res.matched_forbidden_phrases:
+                for p in res.matched_forbidden_phrases:
+                    st.error(f"Matched: `{p}`")
+            else:
+                st.info("None matched")
+
+        with col2:
+            st.markdown("**Layer 2: Vague Verbs/Patterns**")
+            if res.matched_vague_patterns:
+                for vp in res.matched_vague_patterns:
+                    st.warning(f"Matched: `{vp}`")
+            else:
+                st.info("None matched")
+
+        with col3:
+            st.markdown("**Layer 3: Specificity Deductions**")
+            if res.scoring_reasons:
+                for r in res.scoring_reasons:
+                    st.write(f"- {r}")
+            else:
+                st.info("Full specificity points")
+
+        if res.is_generic:
+            st.subheader("✨ Auto-Rewritten Domain Story")
+            rewritten_list, _ = guard_service.filter_and_regenerate([sample_draft])
+            rewritten = rewritten_list[0]
+            st.success(f"**Rewritten Title**: {rewritten.title}")
+            st.markdown(f"**Rewritten Description**: {rewritten.description}")
 
 # TAB 4: READINESS GATE (O4)
 with tabs[3]:
