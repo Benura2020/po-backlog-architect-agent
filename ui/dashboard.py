@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.db.database import Base, engine, SessionLocal
 from app.models.models import BacklogItemModel, DraftModel, ApprovalLogModel, WriteLogModel
+from app.schemas.domain import DraftStatus
 from app.services.context_service import ContextService
 from app.services.citation_service import CitationService
 from app.agents.criteria_agent import CriteriaAgent
@@ -363,16 +364,39 @@ with tabs[6]:
     st.info("⚡ **Critical Assessment Demonstration**: External tracker writes are structurally blocked until a human approves the draft in code. Approved items are automatically tagged `AI-drafted` and locked at status `NOT_READY`.")
 
     approval_svc = ApprovalService(db)
-    drafts = approval_svc.get_all_drafts()
 
-    if not drafts:
-        st.info("No drafts in queue. Generating sample draft...")
-        approval_svc.create_draft("STORY", "Upload Supporting Documents", {"id": "ST-018", "title": "Upload Supporting Documents", "description": "Attach files"})
+    col_hdr1, col_hdr2 = st.columns([3, 1])
+    with col_hdr2:
+        if st.button("➕ New Demo Draft (PENDING)", key="btn_create_fresh_draft"):
+            import random
+            rnd_id = f"DFT-00{random.randint(1, 999)}"
+            approval_svc.create_draft(
+                item_type="STORY",
+                title="Configure Service Catalog Form Fields",
+                payload={"id": rnd_id, "title": "Configure Service Catalog Form Fields", "description": "Define custom text and dropdown fields for catalog templates", "citations": ["PB-03"]}
+            )
+            st.rerun()
+
+    drafts = approval_svc.get_all_drafts()
+    pending_or_approved = [d for d in drafts if d.status in [DraftStatus.PENDING, DraftStatus.APPROVED]]
+
+    if not pending_or_approved:
+        # Automatically generate a clean PENDING demo draft DFT-001
+        approval_svc.create_draft(
+            item_type="STORY",
+            title="Configure Service Catalog Form Fields",
+            payload={"id": "DFT-001", "title": "Configure Service Catalog Form Fields", "description": "Define custom text and dropdown fields for catalog templates", "citations": ["PB-03"]}
+        )
         drafts = approval_svc.get_all_drafts()
 
+    # Sort drafts so PENDING & APPROVED appear at the top
+    sorted_drafts = sorted(drafts, key=lambda d: 0 if d.status == DraftStatus.PENDING else (1 if d.status == DraftStatus.APPROVED else 2))
+
     st.subheader("Draft Queue Items")
-    for d in drafts:
-        with st.expander(f"📄 Draft: {d.title} (ID: {d.id}) — Status: **{d.status.value}**"):
+    for d in sorted_drafts:
+        expanded_default = (d.status in [DraftStatus.PENDING, DraftStatus.APPROVED])
+        status_color = "🟡" if d.status == DraftStatus.PENDING else ("🟢" if d.status == DraftStatus.APPROVED else "⚪")
+        with st.expander(f"{status_color} Draft: {d.title} (ID: `{d.id}`) — Status: **{d.status.value}**", expanded=expanded_default):
             st.json(json.loads(d.payload_json))
 
             col_a, col_b, col_c = st.columns(3)
@@ -389,6 +413,7 @@ with tabs[6]:
                     try:
                         record = approval_svc.write_draft_to_tracker(d.id)
                         st.success(f"✅ WRITTEN TO TRACKER! Record ID: `{record['id']}`, Tag: `{record['tags']}`, Status: `{record['status']}`")
+                        st.rerun()
                     except (ApprovalRequiredError, AlreadyWrittenError) as e:
                         st.error(f"❌ WRITE BLOCKED BY SERVICE LAYER: {e}")
 
