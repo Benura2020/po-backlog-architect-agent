@@ -14,6 +14,12 @@
    - **Left Half of Screen**: Browser window with Streamlit UI ([http://localhost:8501](http://localhost:8501))
    - **Right Half of Screen**: VS Code open with repository files
 
+### 📌 ID Naming Prefix Cheatsheet
+- **`BL`** = **Backlog Item / User Story ID** (e.g., `BL-001` = Story #1: *"Configure Service Catalog Form Fields"*, stored in `data/backlog.json`).
+- **`EP`** = **Epic ID** (e.g., `EP-001` = Epic #1: *"Enhanced Document Attachment Suite"*, stored in `data/epics.json`).
+- **`PB`** = **Product Brief Section ID** (e.g., `PB-04.1` = Section 4.1 in `data/product_brief.md`).
+- **`DFT`** = **Draft Item ID** (e.g., `DFT-001` = Generated AI draft awaiting human PO approval in Tab 7).
+
 ---
 
 ## ⏱️ Minute-by-Minute Spoken Script ("Lyrics") with Inline Visual Cues

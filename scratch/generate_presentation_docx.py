@@ -189,6 +189,11 @@ add_p("This document is your complete word-for-word presentation script. As you 
 add_bullet("Do NOT use PowerPoint slides. Share your desktop screen with Streamlit UI (http://localhost:8501) on the left half and VS Code on the right half.", "Visual Setup: ")
 add_bullet("Terminal 1 running uvicorn app.main:app --reload and Terminal 2 running streamlit run ui/dashboard.py.", "Pre-Demo Terminals: ")
 
+add_bullet("BL-001...BL-020 = Backlog Item / Story ID (from data/backlog.json)", "📌 ID Naming Prefix Cheatsheet: ")
+add_bullet("EP-001...EP-002 = Epic ID (from data/epics.json)", "  ")
+add_bullet("PB-01...PB-15 = Product Brief Section Reference ID (from data/product_brief.md)", "  ")
+add_bullet("DFT-001...DFT-005 = Generated Draft ID in Approval Queue (from database/service layer)", "  ")
+
 img_dir = r"e:\Digital T3\po-backlog-architect-agent\docs\images"
 
 # PART 1
