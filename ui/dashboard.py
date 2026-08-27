@@ -228,6 +228,11 @@ with tabs[3]:
     st.write("Check stories against configurable `readiness.yaml` rules. Log human overrides.")
 
     items = db.query(BacklogItemModel).all()
+    if len(items) < 5:
+        from app.seed import seed_database
+        seed_database()
+        items = db.query(BacklogItemModel).all()
+
     item_options = [f"{i.id}: {i.title}" for i in items]
     sel_item = st.selectbox("Select Backlog Story", item_options)
 
