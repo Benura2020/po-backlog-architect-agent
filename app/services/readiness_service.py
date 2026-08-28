@@ -1,4 +1,5 @@
 import os
+import json
 import yaml
 import logging
 from typing import List, Optional, Dict, Any
@@ -121,11 +122,16 @@ class ReadinessService:
 
     def record_human_override(self, story_id: str, actor: str, override_reason: str) -> DoRVerdict:
         """Record human override log entry to force status READY on a blocked story."""
+        import uuid
+        from datetime import datetime
+        from app.models.models import DraftModel
+
+        unique_log_id = f"OVR-{story_id}-{uuid.uuid4().hex[:6].upper()}"
         log_entry = ApprovalLogModel(
-            id=f"OVR-{story_id}",
+            id=unique_log_id,
             draft_id=story_id,
             actor=actor,
-            action="OVERRIDE",
+            action="HUMAN_OVERRIDE",
             reason=override_reason
         )
         self.db.add(log_entry)
@@ -133,16 +139,32 @@ class ReadinessService:
 
         # Fetch story and evaluate base verdict
         item = self.db.query(BacklogItemModel).filter(BacklogItemModel.id == story_id).first()
-        title = item.title if item else story_id
-        desc = item.description if item else ""
-        criteria = item.acceptance_criteria if item else ""
+        title = story_id
+        desc = ""
+        criteria = ""
+        citations = ["PB-01"]
+
+        if item:
+            title = item.title
+            desc = item.description
+            criteria = item.acceptance_criteria
+        else:
+            draft = self.db.query(DraftModel).filter(DraftModel.id == story_id).first()
+            if draft:
+                title = draft.title
+                try:
+                    payload = json.loads(draft.payload_json)
+                    desc = payload.get("description", draft.title)
+                    criteria = payload.get("acceptance_criteria", "")
+                except Exception:
+                    pass
 
         verdict = self.evaluate_story(
             story_id=story_id,
             title=title,
             description=desc,
             acceptance_criteria=criteria,
-            citations=["PB-01"]
+            citations=citations
         )
         verdict.status = "READY"
         verdict.human_overridden = True

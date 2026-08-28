@@ -29,6 +29,17 @@ class ApprovalService:
 
     def create_draft(self, item_type: str, title: str, payload: Dict[str, Any]) -> DraftModel:
         draft_id = payload.get("id") or f"DFT-{uuid.uuid4().hex[:6].upper()}"
+        existing = self.db.query(DraftModel).filter(DraftModel.id == draft_id).first()
+        if existing:
+            existing.item_type = item_type
+            existing.title = title
+            existing.payload_json = json.dumps(payload)
+            existing.status = DraftStatus.PENDING
+            existing.updated_at = datetime.utcnow()
+            self.db.commit()
+            self.db.refresh(existing)
+            return existing
+
         draft = DraftModel(
             id=draft_id,
             item_type=item_type,

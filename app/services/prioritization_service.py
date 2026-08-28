@@ -63,21 +63,58 @@ class PrioritizationService:
         )
 
     def prioritize_backlog(self) -> List[PriorityScore]:
+        from app.models.models import DraftModel, ApprovalLogModel
+        self.db.expire_all()
         items = self.db.query(BacklogItemModel).all()
         scores: List[PriorityScore] = []
 
-        for idx, item in enumerate(items):
-            # Seed deterministic rating inputs based on item attributes
-            bv = 8.5 if "Catalog" in item.title or "Approval" in item.title or "Upload" in item.title else 6.0
-            urg = 8.0 if "Audit" in item.title or "Emergency" in item.title else 5.5
-            risk = 7.5 if "Security" in item.title or "SLA" in item.title else 5.0
+        # Find all stories that have received a human override (or criteria draft overrides)
+        override_logs = self.db.query(ApprovalLogModel).filter(ApprovalLogModel.action.in_(["OVERRIDE", "HUMAN_OVERRIDE"])).all()
+        overridden_ids = set()
+        for log in override_logs:
+            if not log.draft_id:
+                continue
+            overridden_ids.add(log.draft_id)
+            # If draft_id is a CRITERIA draft, extract parent story_id from title or payload
+            c_draft = self.db.query(DraftModel).filter(DraftModel.id == log.draft_id).first()
+            if c_draft:
+                if c_draft.item_type == "CRITERIA" and "Criteria for " in c_draft.title:
+                    parts = c_draft.title.replace("Criteria for ", "").split(":")
+                    if parts:
+                        parent_id = parts[0].strip()
+                        overridden_ids.add(parent_id)
+
+        # Build combined list of items (DB backlog items + DraftModel STORY items)
+        combined_items = []
+        for i in items:
+            combined_items.append({"id": i.id, "title": i.title, "status": i.status})
+
+        draft_stories = self.db.query(DraftModel).filter(DraftModel.item_type == "STORY").all()
+        for d in draft_stories:
+            if not any(ci["id"] == d.id for ci in combined_items):
+                combined_items.append({"id": d.id, "title": d.title, "status": "PENDING"})
+
+        for idx, item in enumerate(combined_items):
+            item_id = item["id"]
+            item_title = item["title"]
+            item_status = item["status"]
+
+            # Seed rating inputs based on item attributes
+            bv = 8.5 if "Catalog" in item_title or "Approval" in item_title or "Upload" in item_title else 6.0
+            urg = 8.0 if "Audit" in item_title or "Emergency" in item_title else 5.5
+            risk = 7.5 if "Security" in item_title or "SLA" in item_title else 5.0
             align = 8.0
 
-            is_blocked = (item.status == "NOT_READY")
-            has_dep = ("API" in item.title)
+            # Check if blocked, unless human overridden
+            if item_id in overridden_ids:
+                is_blocked = False
+            else:
+                is_blocked = (item_status == "NOT_READY")
+
+            has_dep = ("API" in item_title)
 
             score = self.compute_priority(
-                story_id=item.id,
+                story_id=item_id,
                 business_value=bv,
                 urgency=urg,
                 risk_reduction=risk,
